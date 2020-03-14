@@ -2,7 +2,7 @@ using Zenject;
 
 namespace ZigZag.Game.User
 {
-    internal class Installer : Installer<UserCamera, Installer>
+    public sealed class Installer : Installer<UserCamera, Installer>
     {
         [Inject]
         private UserCamera camera;

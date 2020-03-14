@@ -1,10 +1,10 @@
-using System.Numerics;
+using UnityEngine;
 
 namespace ZigZag.Game.Ball
 {
     public interface IBall
     {
-        Vector3 Position { get; }
+        Vector3 Position { get; set; }
 
         void SetSpeed(float speed);
 

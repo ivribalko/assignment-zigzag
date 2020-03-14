@@ -1,4 +1,6 @@
 using System;
+using UnityEngine;
+using ZigZag.Game.Ball;
 using ZigZag.Game.Path;
 using ZigZag.Game.User;
 
@@ -8,13 +10,19 @@ namespace ZigZag.Game.Loop
     {
         private readonly IInput input;
         private readonly IPath path;
+        private readonly IBall ball;
 
         private bool touched;
 
-        public InitialState(IInput input, IPath path)
+        public InitialState(
+            IInput input,
+            IPath path,
+            IBall ball)
         {
             this.input = input;
             this.path = path;
+            this.ball = ball;
+
             this.input.OnTouch += this.OnTouch;
         }
 
@@ -29,6 +37,9 @@ namespace ZigZag.Game.Loop
 
             this.path.Clear();
             this.path.Start();
+
+            this.ball.SetSpeed(0);
+            this.ball.Position = Vector3.zero;
         }
 
         internal override bool Ended()

@@ -3,7 +3,7 @@ using Zenject;
 
 namespace ZigZag.Game.User
 {
-    internal class UserCamera : MonoBehaviour, ICamera
+    public class UserCamera : MonoBehaviour, ICamera
     {
         [SerializeField] new Camera camera;
 
@@ -14,6 +14,7 @@ namespace ZigZag.Game.User
         private void Inject()
         {
             this.planes = GeometryUtility.CalculateFrustumPlanes(this.camera);
+
             this.vertices = new Vector3[8];
         }
 
