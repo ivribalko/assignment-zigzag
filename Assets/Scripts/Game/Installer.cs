@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 using ZigZag.Game.Ball;
@@ -19,8 +20,15 @@ namespace ZigZag.Game
             User.Installer.Install(this.Container, this.camera);
 
             this.Container
+                .Bind<IReadOnlyList<Vector3>>()
+                .FromInstance(new [] { Vector3.left, Vector3.forward }); //TODO id
+
+            this.Container
                 .Bind<IBall>()
                 .FromInstance(this.ball);
+
+            this.Container
+                .BindInstance(1f); //TODO settings
         }
     }
 }

@@ -1,4 +1,6 @@
+using UnityEngine;
 using Zenject;
+using ZigZag.Rife;
 
 namespace ZigZag.Game.Loop
 {
@@ -17,6 +19,10 @@ namespace ZigZag.Game.Loop
             this.Container
                 .Bind<FinishedState>()
                 .WhenInjectedInto<Main>();
+
+            this.Container
+                .Bind<CircularArray<Vector3>>()
+                .AsSingle();
 
             this.Container
                 .BindInterfacesTo<Main>()

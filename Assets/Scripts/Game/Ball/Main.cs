@@ -15,7 +15,7 @@ namespace ZigZag.Game.Ball
 
         private void Update()
         {
-            this.transform.localPosition = Time.deltaTime * direction * speed;
+            this.transform.localPosition += Time.deltaTime * direction * speed;
         }
 
         public void SetDirection(Vector3 direction)
