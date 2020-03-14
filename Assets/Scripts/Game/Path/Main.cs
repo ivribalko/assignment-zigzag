@@ -29,7 +29,10 @@ namespace ZigZag.Game.Path
         {
             Assert.IsNull(this.tiles.Last);
 
-            this.Spawn(this.size * 3)
+            this.Spawn(new Vector3(
+                    this.size.x * 3,
+                    this.size.y,
+                    this.size.z * 3))
                 .Position = Vector3.zero;
 
             this.SpawnVisible();
@@ -57,26 +60,23 @@ namespace ZigZag.Game.Path
             while (!this.camera.Touches(this.tiles.First.Value.Bounds))
             {
                 this.pool.Despawn(this.tiles.First.Value);
+
+                this.tiles.RemoveFirst();
             }
         }
 
         private void SpawnVisible()
         {
-            while (this.camera.Touches(this.tiles.Last.Value.Bounds))
+            while (this.camera.Envelopes(this.tiles.Last.Value.Bounds))
             {
                 var last = this.tiles.Last.Value;
 
                 var tile = this.Spawn(this.size);
 
-                foreach (var direction in this.directions)
-                {
-                    tile.Position = Position(last, tile, direction);
-
-                    if (this.camera.Contains(tile.Bounds))
-                    {
-                        break;
-                    }
-                }
+                tile.Position = PositionNear(
+                    parent: last,
+                    target: tile,
+                    this.directions.Next());
             }
         }
 
@@ -89,17 +89,16 @@ namespace ZigZag.Game.Path
             return tile;
         }
 
-        private Vector3 Position(Tile one, Tile two, Vector3 direction)
+        private Vector3 PositionNear(Tile parent, Tile target, Vector3 direction)
         {
-            var scaleOne = one.Scale;
-            var scaleTwo = two.Scale;
+            var scaleOne = parent.Scale;
+            var scaleTwo = target.Scale;
 
-            var diff = new Vector3(
-                (scaleOne.x + scaleTwo.x) * direction.x / 2,
-                (scaleOne.y + scaleTwo.y) * direction.y / 2,
-                (scaleOne.z + scaleTwo.z) * direction.z / 2);
+            var diff = (scaleOne + scaleTwo) / 2;
 
-            return one.Position + diff;
+            diff.Scale(direction);
+
+            return parent.Position + diff;
         }
     }
 }

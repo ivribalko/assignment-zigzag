@@ -27,6 +27,11 @@ namespace ZigZag.Rife
             return this.Shuffle().GetEnumerator();
         }
 
+        public T Next()
+        {
+            return this.list[this.random.Next(this.count)];
+        }
+
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();

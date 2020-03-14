@@ -5,42 +5,51 @@ namespace ZigZag.Game.User
 {
     internal class UserCamera : MonoBehaviour, ICamera
     {
-        private Plane[] planes;
-
         [SerializeField] new Camera camera;
+
+        private Plane[] planes;
+        private Vector3[] vertices;
 
         [Inject]
         private void Inject()
         {
             this.planes = GeometryUtility.CalculateFrustumPlanes(this.camera);
+            this.vertices = new Vector3[8];
         }
 
-        public bool Touches(Bounds bounds)
+        public bool Envelopes(Bounds bounds)
         {
+            this.vertices[0] = bounds.min;
+            this.vertices[1] = bounds.max;
+            this.vertices[2] = new Vector3(bounds.min.x, bounds.min.y, bounds.max.z);
+            this.vertices[3] = new Vector3(bounds.min.x, bounds.max.y, bounds.min.z);
+            this.vertices[4] = new Vector3(bounds.max.x, bounds.min.y, bounds.min.z);
+            this.vertices[5] = new Vector3(bounds.min.x, bounds.max.y, bounds.max.z);
+            this.vertices[6] = new Vector3(bounds.max.x, bounds.min.y, bounds.max.z);
+            this.vertices[7] = new Vector3(bounds.max.x, bounds.max.y, bounds.min.z);
+
             foreach (var plane in this.planes)
             {
-                if (plane.GetDistanceToPoint(bounds.min) > 0 ||
-                    plane.GetDistanceToPoint(bounds.max) > 0)
+                foreach (var point in this.vertices)
                 {
-                    return true;
-                }
-            }
+                    var viewport = this.camera.WorldToViewportPoint(point);
 
-            return false;
-        }
-
-        public bool Contains(Bounds bounds)
-        {
-            foreach (var plane in this.planes)
-            {
-                if (plane.GetDistanceToPoint(bounds.min) < 0 &&
-                    plane.GetDistanceToPoint(bounds.max) < 0)
-                {
-                    return false;
+                    if (viewport.x < 0 || viewport.x > 1 ||
+                        viewport.y < 0 || viewport.y > 1 ||
+                        viewport.z < this.camera.nearClipPlane ||
+                        viewport.z > this.camera.farClipPlane)
+                    {
+                        return false;
+                    }
                 }
             }
 
             return true;
+        }
+
+        public bool Touches(Bounds bounds)
+        {
+            return GeometryUtility.TestPlanesAABB(this.planes, bounds);
         }
     }
 }
