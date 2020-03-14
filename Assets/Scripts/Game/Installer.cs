@@ -7,6 +7,8 @@ public sealed class Installer : MonoInstaller
     {
         ZigZag.Game.Loop.Installer.Install(this.Container);
 
+        ZigZag.Game.Path.Installer.Install(this.Container);
+
         this.Container
             .BindInterfacesTo<Input>()
             .AsSingle()

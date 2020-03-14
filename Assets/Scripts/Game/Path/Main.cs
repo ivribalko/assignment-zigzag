@@ -1,12 +1,27 @@
+using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace ZigZag.Game.Path
 {
     internal class Main : IPath
     {
-        public void Clear()
+        private readonly MemoryPool<ITile> pool;
+        private readonly LinkedList<ITile> tiles = new LinkedList<ITile>();
+
+        public Main(TilePool pool)
         {
-            throw new System.NotImplementedException();
+            this.pool = pool;
+        }
+
+        public void SetCamera(Bounds bounds)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                var tile = this.pool.Spawn();
+
+                this.tiles.AddLast(tile);
+            }
         }
 
         public void Move(Vector2 movement)
@@ -14,9 +29,14 @@ namespace ZigZag.Game.Path
             throw new System.NotImplementedException();
         }
 
-        public void SetCamera(Bounds bounds)
+        public void Clear()
         {
-            throw new System.NotImplementedException();
+            foreach (var item in this.tiles)
+            {
+                this.pool.Despawn(item);
+            }
+
+            this.tiles.Clear();
         }
     }
 }
