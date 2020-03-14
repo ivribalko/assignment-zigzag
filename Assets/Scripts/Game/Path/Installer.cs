@@ -1,4 +1,3 @@
-using UnityEngine;
 using Zenject;
 
 namespace ZigZag.Game.Path
@@ -8,8 +7,7 @@ namespace ZigZag.Game.Path
         public override void InstallBindings()
         {
             this.Container
-                .BindMemoryPool<ITile, TilePool>()
-                .To<Tile>()
+                .BindMemoryPool<Tile, TilePool>()
                 .FromComponentInNewPrefabResource("Tile")
                 .UnderTransformGroup("Path");
 

@@ -6,8 +6,8 @@ namespace ZigZag.Game.Path
 {
     internal class Main : IPath
     {
-        private readonly MemoryPool<ITile> pool;
-        private readonly LinkedList<ITile> tiles = new LinkedList<ITile>();
+        private readonly MemoryPool<Vector3, Tile> pool;
+        private readonly LinkedList<Tile> tiles = new LinkedList<Tile>();
 
         public Main(TilePool pool)
         {
@@ -16,9 +16,16 @@ namespace ZigZag.Game.Path
 
         public void SetCamera(Bounds bounds)
         {
+            if (this.tiles.Last == null)
+            {
+                var tile = this.pool.Spawn(Vector3.one * 3);
+
+                this.tiles.AddLast(tile);
+            }
+
             for (int i = 0; i < 10; i++)
             {
-                var tile = this.pool.Spawn();
+                var tile = this.pool.Spawn(Vector3.one);
 
                 this.tiles.AddLast(tile);
             }

@@ -1,19 +1,19 @@
 using UnityEngine;
+using Zenject;
 
 namespace ZigZag.Game.Path
 {
-    internal class Tile : MonoBehaviour, ITile
+    internal class Tile : MonoBehaviour, ITile, IPoolable<Vector3>
     {
         public Bounds Bounds =>
-            throw new System.NotImplementedException();
+        throw new System.NotImplementedException();
 
-        public Vector3 Size
+        public Vector3 Scale
         {
-            get =>
-                throw new System.NotImplementedException();
-            set =>
-                throw new System.NotImplementedException();
+            get => this.transform.localScale;
+            private set => this.transform.localScale = value;
         }
+
         public Vector3 Position
         {
             get =>
@@ -21,5 +21,13 @@ namespace ZigZag.Game.Path
             set =>
                 throw new System.NotImplementedException();
         }
+
+        public void OnSpawned(Vector3 p1)
+        {
+            this.Scale = p1;
+        }
+
+        public void OnDespawned()
+        { }
     }
 }
