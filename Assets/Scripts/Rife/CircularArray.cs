@@ -5,11 +5,11 @@ namespace ZigZag.Rife
 {
     public class CircularArray<T>
     {
-        private readonly IList<T> list;
+        private readonly IReadOnlyList<T> list;
 
         private int current;
 
-        public CircularArray(IList<T> list)
+        public CircularArray(IReadOnlyList<T> list)
         {
             if (list.Count == 0)
             {

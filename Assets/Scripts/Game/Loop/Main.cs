@@ -1,16 +1,10 @@
 using Zenject;
 using ZigZag.Rife;
 
-namespace ZigZag.Game
+namespace ZigZag.Game.Loop
 {
-    internal partial class Main : ITickable
+    internal class Main : ITickable
     {
-        internal abstract class State
-        {
-            abstract internal void Start();
-            abstract internal bool Ended();
-        }
-
         private readonly CircularArray<State> states;
 
         private Main(
