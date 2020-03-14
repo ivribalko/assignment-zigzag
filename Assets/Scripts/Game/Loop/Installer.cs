@@ -21,8 +21,8 @@ namespace ZigZag.Game.Loop
                 .WhenInjectedInto<Main>();
 
             this.Container
-                .Bind<CircularArray<Vector3>>()
-                .AsSingle();
+                .Bind<CircularArray<Vector3>>() //TODO directions -> id
+                .AsTransient();
 
             this.Container
                 .BindInterfacesTo<Main>()

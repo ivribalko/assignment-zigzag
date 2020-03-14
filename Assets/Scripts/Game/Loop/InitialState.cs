@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using ZigZag.Game.Ball;
 using ZigZag.Game.Path;
@@ -35,11 +34,6 @@ namespace ZigZag.Game.Loop
             this.ball.SetSpeed(0);
             this.ball.SetSize(size);
             this.ball.SetPosition(tile);
-
-            if (!this.ball.IsOn<ITile>())
-            {
-                throw new InvalidOperationException();
-            }
         }
     }
 }

@@ -21,6 +21,12 @@ namespace ZigZag.Rife
             this.Current = list[current];
         }
 
+        public void Reset()
+        {
+            this.current = 0;
+            this.Current = this.list[current];
+        }
+
         public T Current { get; private set; }
 
         public T Next()

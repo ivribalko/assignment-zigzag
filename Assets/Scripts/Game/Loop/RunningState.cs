@@ -27,6 +27,8 @@ namespace ZigZag.Game.Loop
         {
             base.Start();
 
+            this.directions.Reset();
+
             this.ball.SetSpeed(this.speed);
 
             this.ball.SetDirection(this.directions.Next());
@@ -41,7 +43,14 @@ namespace ZigZag.Game.Loop
 
         internal override bool Ended()
         {
-            return !this.ball.IsOn<ITile>();
+            if (!this.ball.IsOn<ITile>())
+            {
+                this.ball.SetSpeed(0);
+
+                return true;
+            }
+
+            return false;
         }
     }
 }
