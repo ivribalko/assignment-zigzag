@@ -1,4 +1,6 @@
+using UnityEngine;
 using Zenject;
+using ZigZag.Rife;
 
 namespace ZigZag.Game.Path
 {
@@ -14,6 +16,11 @@ namespace ZigZag.Game.Path
             this.Container
                 .BindInterfacesTo<Main>()
                 .AsSingle();
+
+            this.Container
+                .Bind<RandomAccessArray<Vector3>>()
+                .AsSingle()
+                .WithArguments(new [] { Vector3.forward, Vector3.left });
         }
     }
 }

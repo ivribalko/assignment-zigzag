@@ -4,6 +4,7 @@ namespace ZigZag.Game.User
 {
     public interface ICamera
     {
-        Bounds GetBounds();
+        bool Touches(Bounds bounds);
+        bool Contains(Bounds bounds);
     }
 }

@@ -1,28 +1,46 @@
 using UnityEngine;
-using UnityEngine.Assertions;
+using Zenject;
 
 namespace ZigZag.Game.User
 {
     internal class UserCamera : MonoBehaviour, ICamera
     {
+        private Plane[] planes;
+
         [SerializeField] new Camera camera;
 
-        public Bounds GetBounds()
+        [Inject]
+        private void Inject()
         {
-            Assert.IsTrue(this.camera.orthographic);
+            this.planes = GeometryUtility.CalculateFrustumPlanes(this.camera);
+        }
 
-            var cameraHeight = camera.orthographicSize * 2;
+        public bool Touches(Bounds bounds)
+        {
+            foreach (var plane in this.planes)
+            {
+                if (plane.GetDistanceToPoint(bounds.min) > 0 ||
+                    plane.GetDistanceToPoint(bounds.max) > 0)
+                {
+                    return true;
+                }
+            }
 
-            var position = camera.transform.localPosition;
+            return false;
+        }
 
-            var center = new Vector3(position.x, position.y, position.z + camera.farClipPlane / 2);
+        public bool Contains(Bounds bounds)
+        {
+            foreach (var plane in this.planes)
+            {
+                if (plane.GetDistanceToPoint(bounds.min) < 0 &&
+                    plane.GetDistanceToPoint(bounds.max) < 0)
+                {
+                    return false;
+                }
+            }
 
-            var size = new Vector3(
-                cameraHeight * camera.aspect,
-                cameraHeight,
-                camera.farClipPlane);
-
-            return new Bounds(center, size);
+            return true;
         }
     }
 }

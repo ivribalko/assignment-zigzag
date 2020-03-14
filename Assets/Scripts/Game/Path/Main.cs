@@ -2,30 +2,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using ZigZag.Game.User;
+using ZigZag.Rife;
 
 namespace ZigZag.Game.Path
 {
     internal class Main : IPath
     {
         private readonly TilePool pool;
-        private readonly Bounds cameraBounds;
+        private readonly ICamera camera;
+        private readonly RandomAccessArray<Vector3> directions;
         private readonly LinkedList<Tile> tiles = new LinkedList<Tile>();
+
+        private readonly Vector3 size = Vector3.one;
 
         public Main(
             TilePool pool,
-            ICamera camera)
+            ICamera camera,
+            RandomAccessArray<Vector3> directions)
         {
             this.pool = pool;
-            this.cameraBounds = camera.GetBounds();
+            this.camera = camera;
+            this.directions = directions;
         }
 
         public void Start()
         {
             Assert.IsNull(this.tiles.Last);
 
-            this.Spawn(
-                scale: Vector3.one * 3,
-                position: Vector3.zero);
+            this.Spawn(this.size * 3)
+                .Position = Vector3.zero;
 
             this.SpawnVisible();
         }
@@ -49,7 +54,7 @@ namespace ZigZag.Game.Path
 
         private void DespawnInvisible()
         {
-            while (!this.Visible(this.tiles.First.Value))
+            while (!this.camera.Touches(this.tiles.First.Value.Bounds))
             {
                 this.pool.Despawn(this.tiles.First.Value);
             }
@@ -57,33 +62,44 @@ namespace ZigZag.Game.Path
 
         private void SpawnVisible()
         {
-            while (this.Visible(this.tiles.Last.Value))
+            while (this.camera.Touches(this.tiles.Last.Value.Bounds))
             {
                 var last = this.tiles.Last.Value;
 
-                var size = Vector3.one;
+                var tile = this.Spawn(this.size);
 
-                this.Spawn(
-                    scale: size,
-                    position: last.Position + last.Scale / 2 + size / 2);
+                foreach (var direction in this.directions)
+                {
+                    tile.Position = Position(last, tile, direction);
+
+                    if (this.camera.Contains(tile.Bounds))
+                    {
+                        break;
+                    }
+                }
             }
         }
 
-        private bool Visible(ITile tile)
+        private Tile Spawn(Vector3 scale)
         {
-            return this.Visible(tile.Bounds.min) || this.Visible(tile.Bounds.max);
-        }
-
-        private bool Visible(Vector3 point)
-        {
-            return this.cameraBounds.Contains(point);
-        }
-
-        private void Spawn(Vector3 scale, Vector3 position)
-        {
-            var tile = this.pool.Spawn(scale, position);
+            var tile = this.pool.Spawn(scale);
 
             this.tiles.AddLast(tile);
+
+            return tile;
+        }
+
+        private Vector3 Position(Tile one, Tile two, Vector3 direction)
+        {
+            var scaleOne = one.Scale;
+            var scaleTwo = two.Scale;
+
+            var diff = new Vector3(
+                (scaleOne.x + scaleTwo.x) * direction.x / 2,
+                (scaleOne.y + scaleTwo.y) * direction.y / 2,
+                (scaleOne.z + scaleTwo.z) * direction.z / 2);
+
+            return one.Position + diff;
         }
     }
 }

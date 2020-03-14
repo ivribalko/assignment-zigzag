@@ -3,18 +3,21 @@ using Zenject;
 
 namespace ZigZag.Game.Path
 {
-    internal class Tile : MonoBehaviour, ITile, IPoolable<Vector3, Vector3>
+    internal class Tile : MonoBehaviour, ITile, IPoolable<Vector3>
     {
         public Bounds Bounds => new Bounds(this.Position, this.Scale);
 
         public Vector3 Scale => this.transform.localScale;
 
-        public Vector3 Position => this.transform.localPosition;
+        public Vector3 Position
+        {
+            get => this.transform.localPosition;
+            set => this.transform.localPosition = value;
+        }
 
-        public void OnSpawned(Vector3 p1, Vector3 p2)
+        public void OnSpawned(Vector3 p1)
         {
             this.transform.localScale = p1;
-            this.transform.localPosition = p2;
         }
 
         public void OnDespawned() { }
