@@ -1,5 +1,6 @@
 using Zenject;
 using ZigZag.Game;
+using ZigZag.Game.User;
 
 public sealed class Installer : MonoInstaller
 {
@@ -16,6 +17,11 @@ public sealed class Installer : MonoInstaller
         this.Container
             .Bind<Main.FinishedState>()
             .AsSingle();
+
+        this.Container
+            .BindInterfacesTo<Input>()
+            .AsSingle()
+            .NonLazy();
 
         this.Container
             .BindInterfacesTo<Main>()

@@ -1,21 +1,41 @@
-using UnityEngine;
+using System;
+using ZigZag.Game.User;
 
 namespace ZigZag.Game
 {
     internal partial class Main
     {
-        internal class InitialState : State
+        internal class InitialState : State, IDisposable
         {
+            private readonly IInput input;
+
+            private bool touched;
+
+            public InitialState(IInput input)
+            {
+                this.input = input;
+
+                this.input.OnTouch += this.OnTouch;
+            }
+
+            public void Dispose()
+            {
+                this.input.OnTouch -= this.OnTouch;
+            }
+
             internal override void Start()
             {
-                Debug.Log("Start " + this.GetType().Name);
+                this.touched = false;
             }
 
             internal override bool Ended()
             {
-                Debug.Log("Ended " + this.GetType().Name);
+                return this.touched;
+            }
 
-                return true;
+            private void OnTouch()
+            {
+                this.touched = true;
             }
         }
     }
