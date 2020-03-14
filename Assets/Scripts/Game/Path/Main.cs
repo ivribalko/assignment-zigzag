@@ -1,39 +1,40 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Zenject;
+using UnityEngine.Assertions;
+using ZigZag.Game.User;
 
 namespace ZigZag.Game.Path
 {
     internal class Main : IPath
     {
-        private readonly MemoryPool<Vector3, Tile> pool;
+        private readonly TilePool pool;
+        private readonly Bounds cameraBounds;
         private readonly LinkedList<Tile> tiles = new LinkedList<Tile>();
 
-        public Main(TilePool pool)
+        public Main(
+            TilePool pool,
+            ICamera camera)
         {
             this.pool = pool;
+            this.cameraBounds = camera.GetBounds();
         }
 
-        public void SetCamera(Bounds bounds)
+        public void Start()
         {
-            if (this.tiles.Last == null)
-            {
-                var tile = this.pool.Spawn(Vector3.one * 3);
+            Assert.IsNull(this.tiles.Last);
 
-                this.tiles.AddLast(tile);
-            }
+            this.Spawn(
+                scale: Vector3.one * 3,
+                position: Vector3.zero);
 
-            for (int i = 0; i < 10; i++)
-            {
-                var tile = this.pool.Spawn(Vector3.one);
-
-                this.tiles.AddLast(tile);
-            }
+            this.SpawnVisible();
         }
 
         public void Move(Vector2 movement)
         {
-            throw new System.NotImplementedException();
+            this.DespawnInvisible();
+
+            this.SpawnVisible();
         }
 
         public void Clear()
@@ -44,6 +45,45 @@ namespace ZigZag.Game.Path
             }
 
             this.tiles.Clear();
+        }
+
+        private void DespawnInvisible()
+        {
+            while (!this.Visible(this.tiles.First.Value))
+            {
+                this.pool.Despawn(this.tiles.First.Value);
+            }
+        }
+
+        private void SpawnVisible()
+        {
+            while (this.Visible(this.tiles.Last.Value))
+            {
+                var last = this.tiles.Last.Value;
+
+                var size = Vector3.one;
+
+                this.Spawn(
+                    scale: size,
+                    position: last.Position + last.Scale / 2 + size / 2);
+            }
+        }
+
+        private bool Visible(ITile tile)
+        {
+            return this.Visible(tile.Bounds.min) || this.Visible(tile.Bounds.max);
+        }
+
+        private bool Visible(Vector3 point)
+        {
+            return this.cameraBounds.Contains(point);
+        }
+
+        private void Spawn(Vector3 scale, Vector3 position)
+        {
+            var tile = this.pool.Spawn(scale, position);
+
+            this.tiles.AddLast(tile);
         }
     }
 }

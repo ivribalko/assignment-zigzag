@@ -6,6 +6,6 @@ namespace ZigZag.Game.Path
     {
         Bounds Bounds { get; }
         Vector3 Scale { get; }
-        Vector3 Position { get; set; }
+        Vector3 Position { get; }
     }
 }

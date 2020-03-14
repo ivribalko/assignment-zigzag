@@ -1,17 +1,20 @@
+using UnityEngine;
 using Zenject;
 using ZigZag.Game.User;
 
-public sealed class Installer : MonoInstaller
+namespace ZigZag.Game
 {
-    public override void InstallBindings()
+    public sealed class Installer : MonoInstaller
     {
-        ZigZag.Game.Loop.Installer.Install(this.Container);
+        [SerializeField] new UserCamera camera;
 
-        ZigZag.Game.Path.Installer.Install(this.Container);
+        public override void InstallBindings()
+        {
+            Loop.Installer.Install(this.Container);
 
-        this.Container
-            .BindInterfacesTo<Input>()
-            .AsSingle()
-            .NonLazy();
+            Path.Installer.Install(this.Container);
+
+            User.Installer.Install(this.Container, this.camera);
+        }
     }
 }

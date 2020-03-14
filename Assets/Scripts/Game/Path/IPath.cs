@@ -4,7 +4,7 @@ namespace ZigZag.Game.Path
 {
     public interface IPath
     {
-        void SetCamera(Bounds bounds);
+        void Start();
 
         /// <summary>
         /// Move for  a relative amount.

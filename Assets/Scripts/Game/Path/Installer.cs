@@ -2,7 +2,7 @@ using Zenject;
 
 namespace ZigZag.Game.Path
 {
-    public class Installer : Installer<Installer>
+    internal class Installer : Installer<Installer>
     {
         public override void InstallBindings()
         {

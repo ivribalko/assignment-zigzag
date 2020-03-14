@@ -28,7 +28,7 @@ namespace ZigZag.Game.Loop
             this.touched = false;
 
             this.path.Clear();
-            this.path.SetCamera(default);
+            this.path.Start();
         }
 
         internal override bool Ended()
