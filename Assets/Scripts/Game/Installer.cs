@@ -1,30 +1,14 @@
 using Zenject;
-using ZigZag.Game;
 using ZigZag.Game.User;
 
 public sealed class Installer : MonoInstaller
 {
     public override void InstallBindings()
     {
-        this.Container
-            .Bind<Main.InitialState>()
-            .AsSingle();
-
-        this.Container
-            .Bind<Main.RunningState>()
-            .AsSingle();
-
-        this.Container
-            .Bind<Main.FinishedState>()
-            .AsSingle();
+        ZigZag.Game.Loop.Installer.Install(this.Container);
 
         this.Container
             .BindInterfacesTo<Input>()
-            .AsSingle()
-            .NonLazy();
-
-        this.Container
-            .BindInterfacesTo<Main>()
             .AsSingle()
             .NonLazy();
     }
