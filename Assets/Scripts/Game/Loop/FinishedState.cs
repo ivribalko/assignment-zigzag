@@ -1,19 +1,16 @@
-using UnityEngine;
+using ZigZag.Game.User;
 
 namespace ZigZag.Game.Loop
 {
     internal class FinishedState : State
     {
+        public FinishedState(IInput input) : base(input) { }
+
         internal override void Start()
         {
-            Debug.Log("Start " + this.GetType().Name);
-        }
+            base.Start();
 
-        internal override bool Ended()
-        {
-            Debug.Log("Ended " + this.GetType().Name);
-
-            return true;
+            UnityEngine.Debug.Log(this.GetType().Name);
         }
     }
 }

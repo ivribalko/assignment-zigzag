@@ -14,28 +14,38 @@ namespace ZigZag.Game.Path
         private readonly LinkedList<Tile> tiles = new LinkedList<Tile>();
 
         private readonly Vector3 size = Vector3.one;
+        private readonly Vector3 ballDirection;
 
         public Main(
             TilePool pool,
             ICamera camera,
+            CircularArray<Vector3> ballDirections,
             RandomAccessArray<Vector3> directions)
         {
             this.pool = pool;
             this.camera = camera;
             this.directions = directions;
+            this.ballDirection = ballDirections.Next();
         }
 
-        public void Start()
+        public ITile Start()
         {
             Assert.IsNull(this.tiles.Last);
 
-            this.Spawn(new Vector3(
-                    this.size.x * 3,
-                    this.size.y,
-                    this.size.z * 3))
-                .Position = Vector3.zero;
+            var size = new Vector3(
+                this.size.x * 3,
+                this.size.y,
+                this.size.z * 3);
+
+            var start = this.SpawnNext(size, Vector3.zero);
+
+            this.SpawnNext(this.size, this.ballDirection);
+
+            this.SpawnNext(this.size, this.ballDirection);
 
             this.SpawnVisible();
+
+            return start;
         }
 
         public void Move(Vector2 movement)
@@ -69,36 +79,23 @@ namespace ZigZag.Game.Path
         {
             while (this.camera.Envelopes(this.tiles.Last.Value.Bounds))
             {
-                var last = this.tiles.Last.Value;
-
-                var tile = this.Spawn(this.size);
-
-                tile.Position = PositionNear(
-                    parent: last,
-                    target: tile,
-                    this.directions.Next());
+                this.SpawnNext(this.size, this.directions.Next());
             }
         }
 
-        private Tile Spawn(Vector3 scale)
+        private ITile SpawnNext(Vector3 scale, Vector3 direction)
         {
+            var last = this.tiles.Last?.Value;
+
             var tile = this.pool.Spawn(scale);
+
+            tile.transform.PositionAt(
+                bounds: last?.Bounds ?? default,
+                direction : direction);
 
             this.tiles.AddLast(tile);
 
             return tile;
-        }
-
-        private Vector3 PositionNear(Tile parent, Tile target, Vector3 direction)
-        {
-            var scaleOne = parent.Scale;
-            var scaleTwo = target.Scale;
-
-            var diff = (scaleOne + scaleTwo) / 2;
-
-            diff.Scale(direction);
-
-            return parent.Position + diff;
         }
     }
 }

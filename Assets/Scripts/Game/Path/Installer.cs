@@ -19,8 +19,7 @@ namespace ZigZag.Game.Path
 
             this.Container
                 .Bind<RandomAccessArray<Vector3>>()
-                .AsSingle()
-                .WithArguments(new [] { Vector3.forward, Vector3.left });
+                .AsSingle();
         }
     }
 }
