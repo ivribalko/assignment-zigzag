@@ -1,0 +1,19 @@
+{
+    "name": "ZigZag.Game.Loop",
+    "references": [
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
+        "GUID:30a2e8986fdb64da0809d5c3ccad3eb8",
+        "GUID:89b28787adb3d466eba61249c8cf927e",
+        "GUID:e6b0b0cb095cc49b9aaa923ba781a841",
+        "GUID:f15652a783b3f4559a19cc9bbcab84a4"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

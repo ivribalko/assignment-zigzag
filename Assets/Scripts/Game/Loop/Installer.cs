@@ -2,7 +2,7 @@ using Zenject;
 
 namespace ZigZag.Game.Loop
 {
-    internal class Installer : Installer<Installer>
+    public sealed class Installer : Installer<Installer>
     {
         public override void InstallBindings()
         {

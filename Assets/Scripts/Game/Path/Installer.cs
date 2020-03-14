@@ -4,7 +4,7 @@ using ZigZag.Rife;
 
 namespace ZigZag.Game.Path
 {
-    internal class Installer : Installer<Installer>
+    public sealed class Installer : Installer<Installer>
     {
         public override void InstallBindings()
         {
