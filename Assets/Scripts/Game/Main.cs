@@ -1,33 +1,43 @@
-using System;
 using Zenject;
-using ZigZag.Game.Ball;
-using ZigZag.Game.Opts;
-using ZigZag.Game.Path;
-using ZigZag.Game.User;
+using ZigZag.Rife;
 
 namespace ZigZag.Game
 {
-    public class Main : ITickable, IDisposable
+    internal partial class Main : ITickable
     {
-        private readonly IPath path;
-        private readonly IBall ball;
-        private readonly IOpts opts;
-        private readonly IInput input;
-        private readonly ICamera camera;
-
-        public void Dispose()
+        internal abstract class State
         {
-            throw new NotImplementedException();
+            abstract internal void Start();
+            abstract internal bool Ended();
+        }
+
+        private readonly CircularArray<State> states;
+
+        private Main(
+            InitialState initial,
+            RunningState running,
+            FinishedState finished)
+        {
+            this.states = new CircularArray<State>(new State[]
+            {
+                initial,
+                running,
+                finished,
+            });
+
+            this.states
+                .Current
+                .Start();
         }
 
         public void Tick()
         {
-            throw new NotImplementedException();
-        }
-
-        private void Reset()
-        {
-            throw new NotImplementedException();
+            if (this.states.Current.Ended())
+            {
+                this.states
+                    .Next()
+                    .Start();
+            }
         }
     }
 }
