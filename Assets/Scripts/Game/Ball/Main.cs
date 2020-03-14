@@ -1,4 +1,6 @@
 using UnityEngine;
+using ZigZag.Game.Path;
+using ZigZag.Rife;
 
 namespace ZigZag.Game.Ball
 {
@@ -7,15 +9,19 @@ namespace ZigZag.Game.Ball
         private float speed;
         private Vector3 direction;
 
-        public Vector3 Position
-        {
-            get => this.transform.localPosition;
-            set => this.transform.localPosition = value;
-        }
-
         private void Update()
         {
             this.transform.localPosition += Time.deltaTime * direction * speed;
+        }
+
+        public void SetSize(Vector3 size)
+        {
+            this.transform.localScale = size;
+        }
+
+        public void SetPosition(ITile tile)
+        {
+            this.transform.PositionAt(tile.Bounds, Vector3.up);
         }
 
         public void SetDirection(Vector3 direction)

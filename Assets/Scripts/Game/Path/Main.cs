@@ -25,17 +25,20 @@ namespace ZigZag.Game.Path
             this.directions = directions;
         }
 
-        public void Start()
+        public ITile Start()
         {
             Assert.IsNull(this.tiles.Last);
 
-            this.Spawn(new Vector3(
-                    this.size.x * 3,
-                    this.size.y,
-                    this.size.z * 3))
-                .Position = Vector3.zero;
+            var start = this.Spawn(new Vector3(
+                this.size.x * 3,
+                this.size.y,
+                this.size.z * 3));
+
+            start.Position = Vector3.zero;
 
             this.SpawnVisible();
+
+            return start;
         }
 
         public void Move(Vector2 movement)
@@ -73,10 +76,9 @@ namespace ZigZag.Game.Path
 
                 var tile = this.Spawn(this.size);
 
-                tile.Position = PositionNear(
-                    parent: last,
-                    target: tile,
-                    this.directions.Next());
+                tile.transform.PositionAt(
+                    bounds: last.Bounds,
+                    direction: this.directions.Next());
             }
         }
 
@@ -87,18 +89,6 @@ namespace ZigZag.Game.Path
             this.tiles.AddLast(tile);
 
             return tile;
-        }
-
-        private Vector3 PositionNear(Tile parent, Tile target, Vector3 direction)
-        {
-            var scaleOne = parent.Scale;
-            var scaleTwo = target.Scale;
-
-            var diff = (scaleOne + scaleTwo) / 2;
-
-            diff.Scale(direction);
-
-            return parent.Position + diff;
         }
     }
 }

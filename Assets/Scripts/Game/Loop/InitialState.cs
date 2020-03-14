@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using ZigZag.Game.Ball;
 using ZigZag.Game.Path;
@@ -9,14 +10,17 @@ namespace ZigZag.Game.Loop
     {
         private readonly IPath path;
         private readonly IBall ball;
+        private readonly Vector3 tileSize;
 
         public InitialState(
             IInput input,
             IPath path,
-            IBall ball) : base(input)
+            IBall ball,
+            Vector3 tileSize) : base(input)
         {
             this.path = path;
             this.ball = ball;
+            this.tileSize = tileSize;
         }
 
         internal override void Start()
@@ -24,10 +28,18 @@ namespace ZigZag.Game.Loop
             base.Start();
 
             this.path.Clear();
-            this.path.Start();
+
+            var tile = this.path.Start();
+            var size = this.tileSize / 2;
 
             this.ball.SetSpeed(0);
-            this.ball.Position = Vector3.zero;
+            this.ball.SetSize(size);
+            this.ball.SetPosition(tile);
+
+            if (!this.ball.IsOn<ITile>())
+            {
+                throw new InvalidOperationException();
+            }
         }
     }
 }
