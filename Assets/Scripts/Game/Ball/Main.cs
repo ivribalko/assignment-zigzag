@@ -27,5 +27,22 @@ namespace ZigZag.Game.Ball
         {
             this.speed = speed;
         }
+
+        public bool IsOn<T>() where T : class
+        {
+            if (Physics.Raycast(
+                    origin: this.transform.localPosition,
+                    direction: Vector3.down,
+                    hitInfo: out RaycastHit hit,
+                    maxDistance: this.transform.localScale.y))
+            {
+                return hit
+                    .collider
+                    .gameObject
+                    .GetComponent<T>() != null;
+            }
+
+            return false;
+        }
     }
 }

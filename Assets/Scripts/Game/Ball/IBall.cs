@@ -9,5 +9,7 @@ namespace ZigZag.Game.Ball
         void SetSpeed(float speed);
 
         void SetDirection(Vector3 direction);
+
+        bool IsOn<T>() where T : class;
     }
 }

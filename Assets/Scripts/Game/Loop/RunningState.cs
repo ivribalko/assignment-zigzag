@@ -1,5 +1,6 @@
 using UnityEngine;
 using ZigZag.Game.Ball;
+using ZigZag.Game.Path;
 using ZigZag.Game.User;
 using ZigZag.Rife;
 
@@ -40,7 +41,7 @@ namespace ZigZag.Game.Loop
 
         internal override bool Ended()
         {
-            return base.Ended() && false; // ball outside
+            return !this.ball.IsOn<ITile>();
         }
     }
 }
