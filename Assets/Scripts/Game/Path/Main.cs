@@ -48,8 +48,13 @@ namespace ZigZag.Game.Path
             return start;
         }
 
-        public void Move(Vector2 movement)
+        public void Progress(Vector3 movement)
         {
+            foreach (var tile in this.tiles)
+            {
+                tile.Position -= movement;
+            }
+
             this.DespawnInvisible();
 
             this.SpawnVisible();
@@ -77,7 +82,7 @@ namespace ZigZag.Game.Path
 
         private void SpawnVisible()
         {
-            while (this.camera.Envelopes(this.tiles.Last.Value.Bounds))
+            while (this.camera.Touches(this.tiles.Last.Value.Bounds))
             {
                 this.SpawnNext(this.size, this.directions.Next());
             }

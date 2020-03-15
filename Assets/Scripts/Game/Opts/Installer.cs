@@ -10,7 +10,7 @@ namespace ZigZag.Game.Opts
         {
             this.Container
                 .Bind<IReadOnlyList<Vector3>>()
-                .FromInstance(new [] { Vector3.left, Vector3.forward }); //TODO directions -> id
+                .FromInstance(new [] { Vector3.right, Vector3.forward }); //TODO directions -> id
 
             this.Container
                 .Bind<Vector3>()

@@ -9,7 +9,7 @@ namespace ZigZag.Game.Path
         /// <summary>
         /// Move for  a relative amount.
         /// </summary>
-        void Move(Vector2 movement);
+        void Progress(Vector3 movement);
 
         void Clear();
     }
