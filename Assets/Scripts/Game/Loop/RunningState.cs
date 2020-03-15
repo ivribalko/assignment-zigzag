@@ -1,5 +1,6 @@
 using UnityEngine;
 using ZigZag.Game.Ball;
+using ZigZag.Game.Opts;
 using ZigZag.Game.Path;
 using ZigZag.Game.User;
 using ZigZag.Rife;
@@ -10,19 +11,19 @@ namespace ZigZag.Game.Loop
     {
         private readonly IPath path;
         private readonly IBall ball;
-        private readonly float speed;
+        private readonly IOpts opts;
         private readonly CircularArray<Vector3> directions;
 
         public RunningState(
             IInput input,
             IPath path,
             IBall ball,
-            float speed,
+            IOpts opts,
             CircularArray<Vector3> directions) : base(input)
         {
             this.path = path;
             this.ball = ball;
-            this.speed = speed;
+            this.opts = opts;
             this.directions = directions;
         }
 
@@ -32,9 +33,9 @@ namespace ZigZag.Game.Loop
 
             this.directions.Reset();
 
-            this.ball.SetSpeed(this.speed);
+            this.ball.SetSpeed(this.opts.BallSpeed);
 
-            this.ball.SetDirection(this.directions.Next());
+            this.ball.SetDirection(this.directions.Current);
 
             this.ball.OnMoveUpdate += this.path.Progress;
         }

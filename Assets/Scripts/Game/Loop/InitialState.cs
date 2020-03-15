@@ -1,5 +1,5 @@
-using UnityEngine;
 using ZigZag.Game.Ball;
+using ZigZag.Game.Opts;
 using ZigZag.Game.Path;
 using ZigZag.Game.User;
 
@@ -9,17 +9,17 @@ namespace ZigZag.Game.Loop
     {
         private readonly IPath path;
         private readonly IBall ball;
-        private readonly Vector3 tileSize;
+        private readonly IOpts opts;
 
         public InitialState(
             IInput input,
             IPath path,
             IBall ball,
-            Vector3 tileSize) : base(input)
+            IOpts opts) : base(input)
         {
             this.path = path;
             this.ball = ball;
-            this.tileSize = tileSize;
+            this.opts = opts;
         }
 
         internal override void Start()
@@ -29,7 +29,7 @@ namespace ZigZag.Game.Loop
             this.path.Clear();
 
             var tile = this.path.Start();
-            var size = this.tileSize / 2;
+            var size = this.opts.TileSize * this.opts.BallToTile;
 
             this.ball.SetSpeed(0);
             this.ball.SetSize(size);

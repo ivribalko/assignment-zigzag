@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
+using ZigZag.Game.Opts;
 using ZigZag.Rife;
 
 namespace ZigZag.Game.Loop
@@ -8,6 +10,15 @@ namespace ZigZag.Game.Loop
     {
         public override void InstallBindings()
         {
+            this.Container
+                .Bind<IReadOnlyList<Vector3>>()
+                .FromResolveGetter<IOpts>(opts => opts.Directions)
+                .WhenInjectedInto<CircularArray<Vector3>>();
+
+            this.Container
+                .Bind<CircularArray<Vector3>>()
+                .WhenInjectedInto<RunningState>();
+
             this.Container
                 .Bind<InitialState>()
                 .WhenInjectedInto<Main>();
@@ -19,10 +30,6 @@ namespace ZigZag.Game.Loop
             this.Container
                 .Bind<FinishedState>()
                 .WhenInjectedInto<Main>();
-
-            this.Container
-                .Bind<CircularArray<Vector3>>() //TODO directions -> id
-                .AsTransient();
 
             this.Container
                 .BindInterfacesTo<Main>()

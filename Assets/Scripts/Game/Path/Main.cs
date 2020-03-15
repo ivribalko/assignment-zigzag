@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using ZigZag.Game.Opts;
 using ZigZag.Game.User;
 using ZigZag.Rife;
 
@@ -8,40 +9,43 @@ namespace ZigZag.Game.Path
 {
     internal class Main : IPath
     {
+        private readonly IOpts opts;
         private readonly TilePool pool;
         private readonly ICamera camera;
         private readonly RandomAccessArray<Vector3> directions;
         private readonly LinkedList<Tile> tiles = new LinkedList<Tile>();
 
-        private readonly Vector3 size = Vector3.one;
-        private readonly Vector3 ballDirection;
+        private readonly Vector3 startDirection;
+
+        private Vector3 size;
 
         public Main(
+            IOpts opts,
             TilePool pool,
             ICamera camera,
-            CircularArray<Vector3> ballDirections,
             RandomAccessArray<Vector3> directions)
         {
+            this.opts = opts;
             this.pool = pool;
             this.camera = camera;
             this.directions = directions;
-            this.ballDirection = ballDirections.Next();
+            this.startDirection = opts.Directions[0];
         }
 
         public ITile Start()
         {
             Assert.IsNull(this.tiles.Last);
 
-            var size = new Vector3(
-                this.size.x * 3,
-                this.size.y,
-                this.size.z * 3);
+            var factor = this.opts.TileFactor;
 
-            var start = this.SpawnNext(size, Vector3.zero);
+            this.size = this.TileOfFactor(factor);
 
-            this.SpawnNext(this.size, this.ballDirection);
+            // first tile is 3 times bigger
+            var start = this.SpawnNext(this.TileOfFactor(factor * 3), Vector3.zero);
 
-            this.SpawnNext(this.size, this.ballDirection);
+            this.SpawnNext(this.size, this.startDirection);
+
+            this.SpawnNext(this.size, this.startDirection);
 
             this.SpawnVisible();
 
@@ -101,6 +105,17 @@ namespace ZigZag.Game.Path
             this.tiles.AddLast(tile);
 
             return tile;
+        }
+
+        // Keep the same height.
+        private Vector3 TileOfFactor(float factor)
+        {
+            var size = this.opts.TileSize;
+
+            return new Vector3(
+                size.x * factor,
+                size.y,
+                size.z * factor);
         }
     }
 }
