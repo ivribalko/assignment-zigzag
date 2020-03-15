@@ -21,16 +21,19 @@ namespace ZigZag.Game.Gain
             this.AllTime = PlayerPrefs.GetInt(nameof(this.AllTime));
 
             this.signalBus.Subscribe<SignalPick>(this.Increment);
-        }
-
-        public void ResetCurrent()
-        {
-            this.Current = 0;
+            this.signalBus.Subscribe<SignalReset>(this.ResetCurrent);
         }
 
         public void Dispose()
         {
             this.signalBus.Unsubscribe<SignalPick>(this.Increment);
+            this.signalBus.Unsubscribe<SignalReset>(this.ResetCurrent);
+        }
+
+        private void ResetCurrent()
+        {
+            this.Current = 0;
+            this.OnChanged?.Invoke();
         }
 
         private void Increment()

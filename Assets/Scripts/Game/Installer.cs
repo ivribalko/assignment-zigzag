@@ -11,8 +11,9 @@ namespace ZigZag.Game
         {
             SignalBusInstaller.Install(this.Container);
 
-            this.Container
-                .DeclareSignal<SignalPick>();
+            this.Container.DeclareSignal<SignalPick>();
+
+            this.Container.DeclareSignal<SignalReset>();
 
             this.Container
                 .Bind<User.ICamera>()

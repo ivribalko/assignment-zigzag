@@ -1,3 +1,4 @@
+using Zenject;
 using ZigZag.Game.Ball;
 using ZigZag.Game.Loot;
 using ZigZag.Game.Menu;
@@ -9,6 +10,7 @@ namespace ZigZag.Game.Loop
 {
     internal class StateInitial : State
     {
+        private readonly SignalBus signalBus;
         private readonly IPath path;
         private readonly IBall ball;
         private readonly IOpts opts;
@@ -16,6 +18,7 @@ namespace ZigZag.Game.Loop
         private readonly ILoot loot;
 
         public StateInitial(
+            SignalBus signalBus,
             IInput input,
             IPath path,
             IBall ball,
@@ -23,6 +26,7 @@ namespace ZigZag.Game.Loop
             IView gain,
             ILoot loot) : base(input)
         {
+            this.signalBus = signalBus;
             this.path = path;
             this.ball = ball;
             this.opts = opts;
@@ -46,6 +50,8 @@ namespace ZigZag.Game.Loop
             this.ball.SetSpeed(0);
             this.ball.SetSize(size);
             this.ball.SetPosition(tile);
+
+            this.signalBus.Fire<SignalReset>();
         }
     }
 }
