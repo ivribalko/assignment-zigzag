@@ -9,6 +9,10 @@ namespace ZigZag.Game.Loot
             this.Container
                 .BindMemoryPool<Item, ItemPool>()
                 .FromComponentInNewPrefabResource("Item");
+
+            this.Container
+                .BindInterfacesTo<Generator>()
+                .AsSingle();
         }
     }
 }
