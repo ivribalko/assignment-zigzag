@@ -15,28 +15,26 @@ namespace ZigZag.Game
 
             this.Container.DeclareSignal<SignalReset>();
 
-            this.Container
-                .Bind<User.ICamera>()
-                .FromInstance(this.camera);
+            this.Container.Bind<User.ICamera>().FromInstance(this.camera);
 
-            this.BindFromSubcontainer<Anim.IHide, Anim.Installer>();
+            this.BindTypeFromSubcontainerByInstaller<Anim.IHide, Anim.Installer>();
 
-            this.BindFromSubcontainer<Opts.IOpts, Opts.Installer>();
+            this.BindTypeFromSubcontainerByInstaller<Opts.IOpts, Opts.Installer>();
 
-            this.BindFromSubcontainer<Path.IPath, Path.Installer>();
+            this.BindTypeFromSubcontainerByInstaller<Path.IPath, Path.Installer>();
 
-            this.BindFromSubcontainer<User.Input, User.Installer>();
+            this.BindTypeFromSubcontainerByInstaller<User.Input, User.Installer>();
 
-            this.BindFromSubcontainer<Menu.IView, Gain.Installer>();
+            this.BindTypeFromSubcontainerByInstaller<Menu.IView, Gain.Installer>();
 
-            this.BindFromSubcontainer<Loot.ILoot, Loot.Installer>()
+            this.BindTypeFromSubcontainerByInstaller<Loot.ILoot, Loot.Installer>()
                 .NonLazy();
 
-            this.BindFromSubcontainer<Loop.Main, Loop.Installer>()
+            this.BindTypeFromSubcontainerByInstaller<Loop.Main, Loop.Installer>()
                 .NonLazy();
         }
 
-        private ConcreteIdArgConditionCopyNonLazyBinder BindFromSubcontainer<TType, TInstaller>() where TInstaller : InstallerBase
+        private ConcreteIdArgConditionCopyNonLazyBinder BindTypeFromSubcontainerByInstaller<TType, TInstaller>() where TInstaller : InstallerBase
         {
             return this.Container
                 .BindInterfacesAndSelfTo<TType>()
