@@ -14,6 +14,8 @@ namespace ZigZag.Game
 
         public override void InstallBindings()
         {
+            Anim.Installer.Install(this.Container);
+
             Loop.Installer.Install(this.Container);
 
             Path.Installer.Install(this.Container);
@@ -21,12 +23,6 @@ namespace ZigZag.Game
             Opts.Installer.Install(this.Container);
 
             User.Installer.Install(this.Container, this.camera);
-
-            this.Container
-                .Bind<IAnimator>()
-                .To<Disappearer>()
-                .FromNewComponentOnRoot()
-                .AsSingle();
 
             this.Container
                 .Bind<IBall>()

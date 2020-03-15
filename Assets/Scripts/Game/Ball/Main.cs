@@ -11,15 +11,14 @@ namespace ZigZag.Game.Ball
     {
         public event Action<Vector3> OnMoveUpdate;
 
+        private IHide hide;
         private float speed;
         private Vector3 direction;
-        private IAnimator animator;
-        private IDisposable disappearing;
 
         [Inject]
-        private void Inject(IAnimator animator)
+        private void Inject(IHide hide)
         {
-            this.animator = animator;
+            this.hide = hide;
         }
 
         private void Update()
@@ -64,21 +63,14 @@ namespace ZigZag.Game.Ball
             return null;
         }
 
-        public void Disappear()
+        public void HideStart()
         {
-            if (this.disappearing != null)
-            {
-                throw new InvalidOperationException();
-            }
-
-            this.disappearing = this.animator.Disappear(this);
+            this.hide.HideStart();
         }
 
-        public void Stop()
+        public void HideCease()
         {
-            this.disappearing?.Dispose();
-            this.disappearing = null;
-            this.SetSpeed(0);
+            this.hide.HideCease();
         }
     }
 }

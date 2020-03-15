@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ZigZag.Game.Anim
 {
-    internal class Disappearer : MonoBehaviour, IAnimator
+    internal class Animator : MonoBehaviour, IAnimator
     {
         const float DisappearIn = 2f;
 

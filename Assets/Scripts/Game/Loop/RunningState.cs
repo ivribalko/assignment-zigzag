@@ -59,14 +59,14 @@ namespace ZigZag.Game.Loop
             {
                 this.ball.OnMoveUpdate -= this.path.Progress;
 
-                this.ball.Stop();
+                this.ball.HideCease();
 
                 return true;
             }
 
             if (this.ballOn != ballOn)
             {
-                this.ballOn?.Disappear();
+                this.ballOn?.HideStart();
                 this.ballOn = ballOn;
             }
 

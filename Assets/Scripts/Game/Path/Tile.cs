@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Zenject;
 using ZigZag.Game.Anim;
@@ -17,13 +16,12 @@ namespace ZigZag.Game.Path
             set => this.transform.localPosition = value;
         }
 
-        private IAnimator animator;
-        private IDisposable disappearing;
+        private IHide hide;
 
         [Inject]
-        private void Inject(IAnimator animator)
+        private void Inject(IHide hide)
         {
-            this.animator = animator;
+            this.hide = hide;
         }
 
         public void OnSpawned(Vector3 p1)
@@ -33,18 +31,17 @@ namespace ZigZag.Game.Path
 
         public void OnDespawned()
         {
-            this.disappearing?.Dispose();
-            this.disappearing = null;
+            this.HideCease();
         }
 
-        public void Disappear()
+        public void HideStart()
         {
-            if (this.disappearing != null)
-            {
-                throw new InvalidOperationException();
-            }
+            this.hide.HideStart();
+        }
 
-            this.disappearing = this.animator.Disappear(this);
+        public void HideCease()
+        {
+            this.hide.HideCease();
         }
     }
 }

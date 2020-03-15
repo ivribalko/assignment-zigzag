@@ -18,7 +18,7 @@ namespace ZigZag.Game.Loop
         {
             base.Start();
 
-            this.ball.Disappear();
+            this.ball.HideStart();
         }
     }
 }
