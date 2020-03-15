@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -9,13 +10,15 @@ namespace ZigZag.Game.Path
 {
     internal class Main : IPath
     {
+        public event Action<IReadOnlyList<ITile>> OnBlockSpawned;
+
         private readonly IOpts opts;
         private readonly TilePool pool;
         private readonly ICamera camera;
+        private readonly List<ITile> block;
+        private readonly Vector3 startDirection;
         private readonly RandomAccessArray<Vector3> directions;
         private readonly LinkedList<Tile> tiles = new LinkedList<Tile>();
-
-        private readonly Vector3 startDirection;
 
         private Vector3 size;
 
@@ -30,6 +33,7 @@ namespace ZigZag.Game.Path
             this.camera = camera;
             this.directions = directions;
             this.startDirection = opts.Directions[0];
+            this.block = new List<ITile>(this.opts.LootBlock);
         }
 
         public ITile Start()
@@ -39,6 +43,8 @@ namespace ZigZag.Game.Path
             var factor = this.opts.TileFactor;
 
             this.size = this.TileOfFactor(factor);
+
+            this.block.Capacity = this.opts.LootBlock;
 
             // first tile is 3 times bigger
             var start = this.SpawnNext(this.TileOfFactor(factor * 3), Vector3.zero);
@@ -88,7 +94,16 @@ namespace ZigZag.Game.Path
         {
             while (this.camera.Touches(this.tiles.Last.Value.Bounds))
             {
-                this.SpawnNext(this.size, this.directions.Next());
+                for (int i = 0; i < this.opts.LootBlock; i++)
+                {
+                    var tile = this.SpawnNext(this.size, this.directions.Next());
+
+                    this.block.Add(tile);
+                }
+
+                this.OnBlockSpawned?.Invoke(this.block);
+
+                this.block.Clear();
             }
         }
 

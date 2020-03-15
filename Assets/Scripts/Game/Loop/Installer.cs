@@ -18,18 +18,18 @@ namespace ZigZag.Game.Loop
 
             this.Container
                 .Bind<CircularArray<Vector3>>()
-                .WhenInjectedInto<RunningState>();
+                .WhenInjectedInto<StateRunning>();
 
             this.Container
-                .Bind<InitialState>()
+                .Bind<StateInitial>()
                 .WhenInjectedInto<Main>();
 
             this.Container
-                .Bind<RunningState>()
+                .Bind<StateRunning>()
                 .WhenInjectedInto<Main>();
 
             this.Container
-                .Bind<FinishedState>()
+                .Bind<StateFinished>()
                 .WhenInjectedInto<Main>();
 
             this.Container

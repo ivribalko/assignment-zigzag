@@ -32,6 +32,11 @@ namespace ZigZag.Game.Path
         public void OnDespawned()
         {
             this.HideCease();
+
+            foreach (var item in this.GetComponentsInChildren<IDespawnable>())
+            {
+                item.Despawn();
+            }
         }
 
         public void HideStart()
@@ -42,6 +47,11 @@ namespace ZigZag.Game.Path
         public void HideCease()
         {
             this.hide.HideCease();
+        }
+
+        public void SetChild(Transform transform)
+        {
+            transform.SetParent(this.transform);
         }
     }
 }

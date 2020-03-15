@@ -5,15 +5,10 @@ namespace ZigZag.Game
 {
     public sealed class Installer : MonoInstaller
     {
-        [SerializeField] Ball.Main ball;
         [SerializeField] new User.UserCamera camera;
 
         public override void InstallBindings()
         {
-            this.Container
-                .Bind<Ball.IBall>()
-                .FromInstance(this.ball);
-
             this.Container
                 .Bind<User.ICamera>()
                 .FromInstance(this.camera);
@@ -24,7 +19,9 @@ namespace ZigZag.Game
 
             this.BindFromSubcontainer<Path.IPath, Path.Installer>();
 
-            this.BindFromSubcontainer<User.Input, User.Installer>()
+            this.BindFromSubcontainer<User.Input, User.Installer>();
+
+            this.BindFromSubcontainer<Loot.ILoot, Loot.Installer>()
                 .NonLazy();
 
             this.BindFromSubcontainer<Loop.Main, Loop.Installer>()

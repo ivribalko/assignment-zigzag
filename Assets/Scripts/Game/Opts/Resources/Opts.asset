@@ -19,3 +19,5 @@ MonoBehaviour:
   tileFactor: 1
   ballSpeed: 3
   ballToTile: 0.5
+  lootStrategy: 0
+  lootBlock: 5
