@@ -7,9 +7,9 @@ namespace ZigZag.Game.Gain
     {
         [SerializeField] private TextMesh text;
 
-        public void Set(int count)
+        public void Set(int current, int allTime)
         {
-            text.text = count.ToString();
+            text.text = $"{current}/{allTime}";
         }
 
         public void Show()

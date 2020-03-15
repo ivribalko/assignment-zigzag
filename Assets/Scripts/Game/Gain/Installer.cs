@@ -1,6 +1,5 @@
 using UnityEngine;
 using Zenject;
-using ZigZag.Game.Menu;
 using ZigZag.Game.User;
 
 namespace ZigZag.Game.Gain
@@ -10,10 +9,19 @@ namespace ZigZag.Game.Gain
         public override void InstallBindings()
         {
             this.Container
-                .Bind<IView>()
+                .BindInterfacesAndSelfTo<View>()
                 .FromComponentInNewPrefabResource("Gain")
                 .UnderTransform(_ => Object.FindObjectOfType<UserCamera>().transform)
                 .AsSingle();
+
+            this.Container
+                .Bind<Main>()
+                .AsSingle();
+
+            this.Container
+                .Bind<Bind>()
+                .AsSingle()
+                .NonLazy();
         }
     }
 }
