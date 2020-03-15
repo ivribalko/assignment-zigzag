@@ -14,7 +14,7 @@ namespace ZigZag.Game.User
                 .FromInstance(this.camera);
 
             this.Container
-                .BindInterfacesTo<User.Input>()
+                .BindInterfacesTo<Input>()
                 .AsSingle()
                 .NonLazy();
         }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
+using ZigZag.Game.Ball;
 using ZigZag.Game.Opts;
 using ZigZag.Rife;
 
@@ -32,9 +33,8 @@ namespace ZigZag.Game.Loop
                 .WhenInjectedInto<Main>();
 
             this.Container
-                .BindInterfacesTo<Main>()
-                .AsSingle()
-                .NonLazy();
+                .Bind<Main>()
+                .AsSingle();
         }
     }
 }

@@ -1,9 +1,7 @@
 using UnityEngine;
 using Zenject;
-using ZigZag.Game.Anim;
 using ZigZag.Game.Ball;
 using ZigZag.Game.User;
-using ZigZag.Rife;
 
 namespace ZigZag.Game
 {
@@ -16,8 +14,6 @@ namespace ZigZag.Game
         {
             Anim.Installer.Install(this.Container);
 
-            Loop.Installer.Install(this.Container);
-
             Path.Installer.Install(this.Container);
 
             Opts.Installer.Install(this.Container);
@@ -27,6 +23,13 @@ namespace ZigZag.Game
             this.Container
                 .Bind<IBall>()
                 .FromInstance(this.ball);
+
+            this.Container
+                .BindInterfacesTo<Loop.Main>()
+                .FromSubContainerResolve()
+                .ByInstaller<Loop.Installer>()
+                .AsSingle()
+                .NonLazy();
         }
     }
 }
