@@ -31,7 +31,7 @@ namespace ZigZag.Game.Loop
             var tile = this.path.Start();
             var size = this.opts.TileSize * this.opts.BallToTile;
 
-            this.ball.SetSpeed(0);
+            this.ball.Stop();
             this.ball.SetSize(size);
             this.ball.SetPosition(tile);
         }

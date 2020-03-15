@@ -1,13 +1,12 @@
-using System.Collections;
+using System;
 using UnityEngine;
 using Zenject;
+using ZigZag.Rife;
 
 namespace ZigZag.Game.Path
 {
     internal class Tile : MonoBehaviour, ITile, IPoolable<Vector3>
     {
-        const float DisappearIn = 2f;
-
         public Bounds Bounds => new Bounds(this.Position, this.Scale);
 
         public Vector3 Scale => this.transform.localScale;
@@ -18,28 +17,34 @@ namespace ZigZag.Game.Path
             set => this.transform.localPosition = value;
         }
 
+        private IAnimator animator;
+        private IDisposable disappearing;
+
+        [Inject]
+        private void Inject(IAnimator animator)
+        {
+            this.animator = animator;
+        }
+
         public void OnSpawned(Vector3 p1)
         {
             this.transform.localScale = p1;
         }
 
-        public void OnDespawned() { }
+        public void OnDespawned()
+        {
+            this.disappearing?.Dispose();
+            this.disappearing = null;
+        }
 
         public void Disappear()
         {
-            StartCoroutine(MoveCoroutine(Vector3.down * 3f));
-        }
-
-        private IEnumerator MoveCoroutine(Vector3 move)
-        {
-            var remaining = DisappearIn;
-
-            while ((remaining -= Time.deltaTime) > 0)
+            if (this.disappearing != null)
             {
-                this.Position += move * (DisappearIn - remaining);
-
-                yield return null;
+                throw new InvalidOperationException();
             }
+
+            this.disappearing = this.animator.Disappear(this);
         }
     }
 }

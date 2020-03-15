@@ -1,16 +1,24 @@
+using ZigZag.Game.Ball;
 using ZigZag.Game.User;
 
 namespace ZigZag.Game.Loop
 {
     internal class FinishedState : State
     {
-        public FinishedState(IInput input) : base(input) { }
+        private readonly IBall ball;
+
+        public FinishedState(
+            IInput input,
+            IBall ball) : base(input)
+        {
+            this.ball = ball;
+        }
 
         internal override void Start()
         {
             base.Start();
 
-            UnityEngine.Debug.Log(this.GetType().Name);
+            this.ball.Disappear();
         }
     }
 }

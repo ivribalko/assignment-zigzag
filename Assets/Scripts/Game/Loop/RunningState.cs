@@ -59,7 +59,7 @@ namespace ZigZag.Game.Loop
             {
                 this.ball.OnMoveUpdate -= this.path.Progress;
 
-                this.ball.SetSpeed(0);
+                this.ball.Stop();
 
                 return true;
             }
