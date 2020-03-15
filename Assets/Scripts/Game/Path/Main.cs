@@ -12,10 +12,9 @@ namespace ZigZag.Game.Path
         private readonly IOpts opts;
         private readonly TilePool pool;
         private readonly ICamera camera;
+        private readonly Vector3 startDirection;
         private readonly RandomAccessArray<Vector3> directions;
         private readonly LinkedList<Tile> tiles = new LinkedList<Tile>();
-
-        private readonly Vector3 startDirection;
 
         private Vector3 size;
 
