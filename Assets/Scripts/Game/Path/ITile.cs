@@ -10,5 +10,9 @@ namespace ZigZag.Game.Path
         Vector3 Position { get; }
 
         void SetChild(Transform transform);
+
+#if UNITY_EDITOR
+        T GetComponentInChildren<T>();
+#endif
     }
 }

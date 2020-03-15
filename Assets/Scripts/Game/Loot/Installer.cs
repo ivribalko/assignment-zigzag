@@ -15,7 +15,7 @@ namespace ZigZag.Game.Loot
                 .AsSingle();
 
             this.Container
-                .BindInterfacesTo<Generator>()
+                .BindInterfacesTo<Main>()
                 .AsSingle();
 
             this.Container
