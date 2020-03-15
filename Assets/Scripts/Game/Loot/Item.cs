@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using Zenject;
-using ZigZag.Game;
 using ZigZag.Game.Path;
 
 namespace ZigZag.Game.Loot

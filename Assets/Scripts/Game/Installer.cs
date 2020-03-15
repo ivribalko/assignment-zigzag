@@ -9,6 +9,12 @@ namespace ZigZag.Game
 
         public override void InstallBindings()
         {
+            SignalBusInstaller.Install(this.Container);
+
+            this.Container.DeclareSignal<SignalPick>();
+
+            this.Container.DeclareSignal<SignalReset>();
+
             this.Container
                 .Bind<User.ICamera>()
                 .FromInstance(this.camera);
@@ -20,6 +26,8 @@ namespace ZigZag.Game
             this.BindFromSubcontainer<Path.IPath, Path.Installer>();
 
             this.BindFromSubcontainer<User.Input, User.Installer>();
+
+            this.BindFromSubcontainer<Menu.IView, Gain.Installer>();
 
             this.BindFromSubcontainer<Loot.ILoot, Loot.Installer>()
                 .NonLazy();

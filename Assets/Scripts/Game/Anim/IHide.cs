@@ -1,5 +1,3 @@
-using System;
-
 namespace ZigZag.Game.Anim
 {
     public interface IHide

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace ZigZag.Game.Opts
@@ -10,13 +11,15 @@ namespace ZigZag.Game.Opts
 
         public Vector3 TileSize => this.tileSize;
 
-        public float TileFactor => this.tileFactor;
+        public float TileFactor => this.difficulties
+            .First(item => item.difficulty == this.difficulty)
+            .tileFactor;
 
         public float BallSpeed => this.ballSpeed;
 
         public float BallToTile => this.ballToTile;
 
-        public Game.Opts.Loot LootStrategy => this.lootStrategy;
+        public Loot LootStrategy => this.lootStrategy;
 
         public int LootBlock => this.lootBlock;
 
@@ -24,14 +27,16 @@ namespace ZigZag.Game.Opts
 
         [SerializeField] private Vector3 tileSize = Vector3.one;
 
-        [SerializeField] private float tileFactor = 1f;
-
         [SerializeField] private float ballSpeed = 2f;
 
         [SerializeField] private float ballToTile = 0.5f;
 
-        [SerializeField] private Game.Opts.Loot lootStrategy;
+        [SerializeField] private Loot lootStrategy;
 
         [SerializeField] private int lootBlock = 5;
+
+        [SerializeField] private Difficulty difficulty;
+
+        [SerializeField] private DifficultyData[] difficulties;
     }
 }

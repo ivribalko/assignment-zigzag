@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
-using ZigZag.Game.Ball;
 using ZigZag.Game.Opts;
 using ZigZag.Rife;
 
