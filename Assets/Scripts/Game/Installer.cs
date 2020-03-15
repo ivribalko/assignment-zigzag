@@ -24,8 +24,9 @@ namespace ZigZag.Game
 
             this.BindFromSubcontainer<Path.IPath, Path.Installer>();
 
-            this.BindFromSubcontainer<User.Input, User.Installer>()
-                .NonLazy();
+            this.BindFromSubcontainer<Loot.ILoot, Loot.Installer>();
+
+            this.BindFromSubcontainer<User.Input, User.Installer>();
 
             this.BindFromSubcontainer<Loop.Main, Loop.Installer>()
                 .NonLazy();

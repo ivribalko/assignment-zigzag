@@ -16,6 +16,10 @@ namespace ZigZag.Game.Opts
 
         public float BallToTile => this.ballToTile;
 
+        public Game.Opts.Loot LootStrategy => this.lootStrategy;
+
+        public int LootBlock => this.lootBlock;
+
         [SerializeField] private Vector3[] directions = new [] { Vector3.forward, Vector3.right };
 
         [SerializeField] private Vector3 tileSize = Vector3.one;
@@ -26,5 +30,8 @@ namespace ZigZag.Game.Opts
 
         [SerializeField] private float ballToTile = 0.5f;
 
+        [SerializeField] private Game.Opts.Loot lootStrategy;
+
+        [SerializeField] private int lootBlock = 5;
     }
 }

@@ -1,4 +1,8 @@
 namespace ZigZag.Game.Loot
 {
-    internal class Generator { }
+    internal class Generator
+    {
+        private readonly Strategy strategy;
+
+    }
 }

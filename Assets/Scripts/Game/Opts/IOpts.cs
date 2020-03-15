@@ -29,5 +29,15 @@ namespace ZigZag.Game.Opts
         /// Ball size respective to tiles.
         /// </summary>
         float BallToTile { get; }
+
+        /// <summary>
+        /// How loot is generated.
+        /// </summary>
+        Game.Opts.Loot LootStrategy { get; }
+
+        /// <summary>
+        /// Tiles per one block. One loot per block.
+        /// </summary>
+        int LootBlock { get; }
     }
 }

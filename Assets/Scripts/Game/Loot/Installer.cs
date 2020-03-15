@@ -8,7 +8,7 @@ namespace ZigZag.Game.Loot
         {
             this.Container
                 .BindMemoryPool<Item, ItemPool>()
-                .FromComponentInNewPrefabResource("LootItem");
+                .FromComponentInNewPrefabResource("Item");
         }
     }
 }
