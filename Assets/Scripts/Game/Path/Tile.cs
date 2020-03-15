@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 using Zenject;
-using ZigZag.Rife;
+using ZigZag.Game.Anim;
 
 namespace ZigZag.Game.Path
 {

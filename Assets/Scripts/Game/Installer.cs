@@ -1,5 +1,6 @@
 using UnityEngine;
 using Zenject;
+using ZigZag.Game.Anim;
 using ZigZag.Game.Ball;
 using ZigZag.Game.User;
 using ZigZag.Rife;

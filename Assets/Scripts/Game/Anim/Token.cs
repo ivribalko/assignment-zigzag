@@ -1,6 +1,6 @@
 using System;
 
-namespace ZigZag.Rife
+namespace ZigZag.Game.Anim
 {
     public class Token : IDisposable
     {
