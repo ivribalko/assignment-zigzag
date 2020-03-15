@@ -1,26 +1,26 @@
 using System;
 using System.Collections.Generic;
-using ZigZag.Game.Opts;
+using Zenject;
 using ZigZag.Game.Path;
 
 namespace ZigZag.Game.Loot
 {
-    internal class Generator : IDisposable
+    internal class Generator : IDisposable, ILoot
     {
         private readonly IPath path;
-        private readonly IOpts opts;
         private readonly ItemPool pool;
+        private readonly IFactory<Strategy> pick;
 
         private Strategy strategy;
 
         private Generator(
             IPath path,
-            IOpts opts,
-            ItemPool pool)
+            ItemPool pool,
+            IFactory<Strategy> pick)
         {
             this.path = path;
-            this.opts = opts;
             this.pool = pool;
+            this.pick = pick;
 
             this.path.OnBlockSpawned += SpawnLoot;
         }
@@ -28,6 +28,11 @@ namespace ZigZag.Game.Loot
         public void Dispose()
         {
             this.path.OnBlockSpawned -= SpawnLoot;
+        }
+
+        public void Reset()
+        {
+            this.strategy = this.pick.Create();
         }
 
         private void SpawnLoot(IReadOnlyList<ITile> tiles)

@@ -1,4 +1,6 @@
+using System;
 using Zenject;
+using ZigZag.Game.Opts;
 
 namespace ZigZag.Game.Loot
 {
@@ -13,6 +15,23 @@ namespace ZigZag.Game.Loot
             this.Container
                 .BindInterfacesTo<Generator>()
                 .AsSingle();
+
+            this.Container
+                .BindIFactory<Strategy>()
+                .FromResolveGetter<IOpts>(this.GetStrategy);
+        }
+
+        private Strategy GetStrategy(IOpts opts)
+        {
+            switch (opts.LootStrategy)
+            {
+                case Opts.Loot.Random:
+                    return new StrategyRandom();
+                case Opts.Loot.Ordered:
+                    return new StrategyOrdered();
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }
