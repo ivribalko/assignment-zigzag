@@ -82,7 +82,7 @@ namespace ZigZag.Game.Path
 
         private void SpawnVisible()
         {
-            while (this.camera.Envelopes(this.tiles.Last.Value.Bounds))
+            while (this.camera.Touches(this.tiles.Last.Value.Bounds))
             {
                 this.SpawnNext(this.size, this.directions.Next());
             }
