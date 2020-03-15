@@ -1,5 +1,6 @@
 using ZigZag.Game.Ball;
 using ZigZag.Game.Loot;
+using ZigZag.Game.Menu;
 using ZigZag.Game.Opts;
 using ZigZag.Game.Path;
 using ZigZag.Game.User;
@@ -11,6 +12,7 @@ namespace ZigZag.Game.Loop
         private readonly IPath path;
         private readonly IBall ball;
         private readonly IOpts opts;
+        private readonly IView gain;
         private readonly ILoot loot;
 
         public StateInitial(
@@ -18,11 +20,13 @@ namespace ZigZag.Game.Loop
             IPath path,
             IBall ball,
             IOpts opts,
+            IView gain,
             ILoot loot) : base(input)
         {
             this.path = path;
             this.ball = ball;
             this.opts = opts;
+            this.gain = gain;
             this.loot = loot;
         }
 
@@ -32,6 +36,8 @@ namespace ZigZag.Game.Loop
 
             this.path.Clear();
             this.loot.Reset();
+
+            this.gain.HideStart();
 
             var tile = this.path.Start();
             var size = this.opts.TileSize * this.opts.BallToTile;
