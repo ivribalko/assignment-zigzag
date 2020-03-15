@@ -23,7 +23,8 @@ namespace ZigZag.Game.Loop
             base.Start();
 
             this.ball.HideStart();
-            this.gain.ShowStart();
+
+            this.gain.Show();
         }
     }
 }

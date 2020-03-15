@@ -21,6 +21,8 @@ namespace ZigZag.Game
 
             this.BindFromSubcontainer<User.Input, User.Installer>();
 
+            this.BindFromSubcontainer<Menu.IView, Gain.Installer>();
+
             this.BindFromSubcontainer<Loot.ILoot, Loot.Installer>()
                 .NonLazy();
 

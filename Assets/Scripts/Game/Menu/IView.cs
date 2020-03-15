@@ -1,9 +1,8 @@
-using ZigZag.Game.Anim;
-
 namespace ZigZag.Game.Menu
 {
-    public interface IView : IHide
+    public interface IView
     {
-        void ShowStart();
+        void Show();
+        void Hide();
     }
 }

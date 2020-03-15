@@ -37,7 +37,7 @@ namespace ZigZag.Game.Loop
             this.path.Clear();
             this.loot.Reset();
 
-            this.gain.HideStart();
+            this.gain.Hide();
 
             var tile = this.path.Start();
             var size = this.opts.TileSize * this.opts.BallToTile;
