@@ -35,7 +35,7 @@ namespace ZigZag.Game.Loop
 
             this.ball.SetSpeed(this.opts.BallSpeed);
 
-            this.ball.SetDirection(this.directions.Next());
+            this.ball.SetDirection(this.directions.Current);
 
             this.ball.OnMoveUpdate += this.path.Progress;
         }
