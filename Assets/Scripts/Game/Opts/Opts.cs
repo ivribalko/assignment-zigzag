@@ -10,7 +10,7 @@ namespace ZigZag.Game.Opts
 
         public Vector3 TileSize => this.tileSize;
 
-        public float Difficulty => this.difficulty;
+        public float TileFactor => this.tileFactor;
 
         public float BallSpeed => this.ballSpeed;
 
@@ -20,7 +20,7 @@ namespace ZigZag.Game.Opts
 
         [SerializeField] private Vector3 tileSize = Vector3.one;
 
-        [SerializeField] private float difficulty = 1f;
+        [SerializeField] private float tileFactor = 1f;
 
         [SerializeField] private float ballSpeed = 2f;
 

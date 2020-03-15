@@ -9,13 +9,15 @@ namespace ZigZag.Game.Path
 {
     internal class Main : IPath
     {
+        private readonly IOpts opts;
         private readonly TilePool pool;
         private readonly ICamera camera;
         private readonly RandomAccessArray<Vector3> directions;
         private readonly LinkedList<Tile> tiles = new LinkedList<Tile>();
 
-        private readonly Vector3 size = Vector3.one;
         private readonly Vector3 startDirection;
+
+        private Vector3 size;
 
         public Main(
             IOpts opts,
@@ -23,6 +25,7 @@ namespace ZigZag.Game.Path
             ICamera camera,
             RandomAccessArray<Vector3> directions)
         {
+            this.opts = opts;
             this.pool = pool;
             this.camera = camera;
             this.directions = directions;
@@ -33,12 +36,12 @@ namespace ZigZag.Game.Path
         {
             Assert.IsNull(this.tiles.Last);
 
-            var size = new Vector3(
-                this.size.x * 3,
-                this.size.y,
-                this.size.z * 3);
+            var factor = this.opts.TileFactor;
 
-            var start = this.SpawnNext(size, Vector3.zero);
+            this.size = this.TileOfFactor(factor);
+
+            // first tile is 3 times bigger
+            var start = this.SpawnNext(this.TileOfFactor(factor * 3), Vector3.zero);
 
             this.SpawnNext(this.size, this.startDirection);
 
@@ -102,6 +105,17 @@ namespace ZigZag.Game.Path
             this.tiles.AddLast(tile);
 
             return tile;
+        }
+
+        // Keep the same height.
+        private Vector3 TileOfFactor(float factor)
+        {
+            var size = this.opts.TileSize;
+
+            return new Vector3(
+                size.x * factor,
+                size.y,
+                size.z * factor);
         }
     }
 }

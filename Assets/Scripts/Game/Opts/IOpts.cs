@@ -16,9 +16,9 @@ namespace ZigZag.Game.Opts
         Vector3 TileSize { get; }
 
         /// <summary>
-        /// How large the path is. Tile factor basically.
+        /// How large the path is. The less it is the more the difficulty.
         /// </summary>
-        float Difficulty { get; }
+        float TileFactor { get; }
 
         /// <summary>
         /// How fast the ball is.

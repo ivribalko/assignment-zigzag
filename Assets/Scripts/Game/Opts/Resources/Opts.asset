@@ -16,6 +16,6 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 1}
   - {x: 1, y: 0, z: 0}
   tileSize: {x: 1, y: 1, z: 1}
-  difficulty: 1
-  ballSpeed: 2
+  tileFactor: 1
+  ballSpeed: 3
   ballToTile: 0.5
