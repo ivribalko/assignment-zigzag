@@ -37,7 +37,7 @@ namespace ZigZag.Game.Ball
             this.speed = speed;
         }
 
-        public bool IsOn<T>() where T : class
+        public T On<T>() where T : class
         {
             if (Physics.Raycast(
                     origin: this.transform.localPosition,
@@ -48,10 +48,10 @@ namespace ZigZag.Game.Ball
                 return hit
                     .collider
                     .gameObject
-                    .GetComponent<T>() != null;
+                    .GetComponent<T>();
             }
 
-            return false;
+            return null;
         }
     }
 }

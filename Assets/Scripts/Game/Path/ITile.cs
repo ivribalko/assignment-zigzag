@@ -7,5 +7,7 @@ namespace ZigZag.Game.Path
         Bounds Bounds { get; }
         Vector3 Scale { get; }
         Vector3 Position { get; }
+
+        void Disappear();
     }
 }

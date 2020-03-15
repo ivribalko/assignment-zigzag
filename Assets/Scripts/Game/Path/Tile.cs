@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using Zenject;
 
@@ -5,6 +6,8 @@ namespace ZigZag.Game.Path
 {
     internal class Tile : MonoBehaviour, ITile, IPoolable<Vector3>
     {
+        const float DisappearIn = 2f;
+
         public Bounds Bounds => new Bounds(this.Position, this.Scale);
 
         public Vector3 Scale => this.transform.localScale;
@@ -21,5 +24,22 @@ namespace ZigZag.Game.Path
         }
 
         public void OnDespawned() { }
+
+        public void Disappear()
+        {
+            StartCoroutine(MoveCoroutine(Vector3.down * 3f));
+        }
+
+        private IEnumerator MoveCoroutine(Vector3 move)
+        {
+            var remaining = DisappearIn;
+
+            while ((remaining -= Time.deltaTime) > 0)
+            {
+                this.Position += move * (DisappearIn - remaining);
+
+                yield return null;
+            }
+        }
     }
 }
