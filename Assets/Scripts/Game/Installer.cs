@@ -1,35 +1,43 @@
 using UnityEngine;
 using Zenject;
-using ZigZag.Game.Ball;
-using ZigZag.Game.User;
-using ZigZag.Rife;
 
 namespace ZigZag.Game
 {
     public sealed class Installer : MonoInstaller
     {
         [SerializeField] Ball.Main ball;
-        [SerializeField] new UserCamera camera;
+        [SerializeField] new User.UserCamera camera;
 
         public override void InstallBindings()
         {
-            Loop.Installer.Install(this.Container);
-
-            Path.Installer.Install(this.Container);
-
-            Opts.Installer.Install(this.Container);
-
-            User.Installer.Install(this.Container, this.camera);
-
             this.Container
-                .Bind<IAnimator>()
-                .To<Disappearer>()
-                .FromNewComponentOnRoot()
-                .AsSingle();
-
-            this.Container
-                .Bind<IBall>()
+                .Bind<Ball.IBall>()
                 .FromInstance(this.ball);
+
+            this.Container
+                .Bind<User.ICamera>()
+                .FromInstance(this.camera);
+
+            this.BindFromSubcontainer<Anim.IHide, Anim.Installer>();
+
+            this.BindFromSubcontainer<Opts.IOpts, Opts.Installer>();
+
+            this.BindFromSubcontainer<Path.IPath, Path.Installer>();
+
+            this.BindFromSubcontainer<User.Input, User.Installer>()
+                .NonLazy();
+
+            this.BindFromSubcontainer<Loop.Main, Loop.Installer>()
+                .NonLazy();
+        }
+
+        private ConcreteIdArgConditionCopyNonLazyBinder BindFromSubcontainer<TType, TInstaller>() where TInstaller : InstallerBase
+        {
+            return this.Container
+                .BindInterfacesAndSelfTo<TType>()
+                .FromSubContainerResolve()
+                .ByInstaller<TInstaller>()
+                .AsSingle();
         }
     }
 }

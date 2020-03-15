@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-namespace ZigZag.Rife
+namespace ZigZag.Game.Anim
 {
-    internal class Disappearer : MonoBehaviour, IAnimator
+    internal class Animator : MonoBehaviour, IAnimator
     {
         const float DisappearIn = 2f;
 

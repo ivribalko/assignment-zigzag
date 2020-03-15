@@ -1,10 +1,11 @@
 using System;
 using UnityEngine;
+using ZigZag.Game.Anim;
 using ZigZag.Game.Path;
 
 namespace ZigZag.Game.Ball
 {
-    public interface IBall
+    public interface IBall : IHide
     {
         /// <summary>
         /// Send difference.
@@ -20,9 +21,5 @@ namespace ZigZag.Game.Ball
         void SetDirection(Vector3 direction);
 
         T On<T>() where T : class;
-
-        void Disappear();
-
-        void Stop();
     }
 }
