@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Zenject;
 using ZigZag.Game.Path;
 
@@ -40,6 +41,10 @@ namespace ZigZag.Game.Loot
             var tile = this.strategy.Pick(tiles);
 
             var loot = this.pool.Spawn(tile);
+
+            tile.SetChild(loot.transform);
+
+            loot.transform.localPosition = new Vector3(0, 1f, 0);
 
             tile.OnDespawnOnce += () => this.pool.Despawn(loot);
         }

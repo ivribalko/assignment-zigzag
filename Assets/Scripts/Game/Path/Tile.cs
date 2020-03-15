@@ -49,5 +49,10 @@ namespace ZigZag.Game.Path
         {
             this.hide.HideCease();
         }
+
+        public void SetChild(Transform transform)
+        {
+            transform.SetParent(this.transform);
+        }
     }
 }
