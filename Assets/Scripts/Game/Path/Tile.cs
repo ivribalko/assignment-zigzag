@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using Zenject;
+using ZigZag.Rife;
 
 namespace ZigZag.Game.Path
 {
@@ -15,11 +17,34 @@ namespace ZigZag.Game.Path
             set => this.transform.localPosition = value;
         }
 
+        private IAnimator animator;
+        private IDisposable disappearing;
+
+        [Inject]
+        private void Inject(IAnimator animator)
+        {
+            this.animator = animator;
+        }
+
         public void OnSpawned(Vector3 p1)
         {
             this.transform.localScale = p1;
         }
 
-        public void OnDespawned() { }
+        public void OnDespawned()
+        {
+            this.disappearing?.Dispose();
+            this.disappearing = null;
+        }
+
+        public void Disappear()
+        {
+            if (this.disappearing != null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            this.disappearing = this.animator.Disappear(this);
+        }
     }
 }

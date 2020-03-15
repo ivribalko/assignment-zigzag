@@ -14,6 +14,8 @@ namespace ZigZag.Game.Loop
         private readonly IOpts opts;
         private readonly CircularArray<Vector3> directions;
 
+        private ITile ballOn;
+
         public RunningState(
             IInput input,
             IPath path,
@@ -33,6 +35,8 @@ namespace ZigZag.Game.Loop
 
             this.directions.Reset();
 
+            this.ballOn = null;
+
             this.ball.SetSpeed(this.opts.BallSpeed);
 
             this.ball.SetDirection(this.directions.Current);
@@ -49,13 +53,21 @@ namespace ZigZag.Game.Loop
 
         internal override bool Ended()
         {
-            if (!this.ball.IsOn<ITile>())
+            var ballOn = this.ball.On<ITile>();
+
+            if (ballOn == null)
             {
                 this.ball.OnMoveUpdate -= this.path.Progress;
 
-                this.ball.SetSpeed(0);
+                this.ball.Stop();
 
                 return true;
+            }
+
+            if (this.ballOn != ballOn)
+            {
+                this.ballOn?.Disappear();
+                this.ballOn = ballOn;
             }
 
             return false;

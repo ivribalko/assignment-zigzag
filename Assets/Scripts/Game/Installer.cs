@@ -2,6 +2,7 @@ using UnityEngine;
 using Zenject;
 using ZigZag.Game.Ball;
 using ZigZag.Game.User;
+using ZigZag.Rife;
 
 namespace ZigZag.Game
 {
@@ -19,6 +20,12 @@ namespace ZigZag.Game
             Opts.Installer.Install(this.Container);
 
             User.Installer.Install(this.Container, this.camera);
+
+            this.Container
+                .Bind<IAnimator>()
+                .To<Disappearer>()
+                .FromNewComponentOnRoot()
+                .AsSingle();
 
             this.Container
                 .Bind<IBall>()

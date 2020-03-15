@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Zenject;
 using ZigZag.Game.Path;
 using ZigZag.Rife;
 
@@ -11,6 +12,14 @@ namespace ZigZag.Game.Ball
 
         private float speed;
         private Vector3 direction;
+        private IAnimator animator;
+        private IDisposable disappearing;
+
+        [Inject]
+        private void Inject(IAnimator animator)
+        {
+            this.animator = animator;
+        }
 
         private void Update()
         {
@@ -37,7 +46,7 @@ namespace ZigZag.Game.Ball
             this.speed = speed;
         }
 
-        public bool IsOn<T>() where T : class
+        public T On<T>() where T : class
         {
             if (Physics.Raycast(
                     origin: this.transform.localPosition,
@@ -48,10 +57,27 @@ namespace ZigZag.Game.Ball
                 return hit
                     .collider
                     .gameObject
-                    .GetComponent<T>() != null;
+                    .GetComponent<T>();
             }
 
-            return false;
+            return null;
+        }
+
+        public void Disappear()
+        {
+            if (this.disappearing != null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            this.disappearing = this.animator.Disappear(this);
+        }
+
+        public void Stop()
+        {
+            this.disappearing?.Dispose();
+            this.disappearing = null;
+            this.SetSpeed(0);
         }
     }
 }

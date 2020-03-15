@@ -19,6 +19,10 @@ namespace ZigZag.Game.Ball
 
         void SetDirection(Vector3 direction);
 
-        bool IsOn<T>() where T : class;
+        T On<T>() where T : class;
+
+        void Disappear();
+
+        void Stop();
     }
 }
