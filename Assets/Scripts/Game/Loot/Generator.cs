@@ -40,11 +40,13 @@ namespace ZigZag.Game.Loot
         {
             var tile = this.strategy.Pick(tiles);
 
-            var loot = this.pool.Spawn(tile);
+            var item = this.pool.Spawn(tile);
 
-            tile.SetChild(loot.transform);
+            item.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
 
-            loot.transform.localPosition = new Vector3(0, 1f, 0);
+            tile.SetChild(item.transform);
+
+            item.transform.localPosition = new Vector3(0, 1f, 0);
         }
     }
 }
