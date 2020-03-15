@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Zenject;
 using ZigZag.Game.Anim;
@@ -7,8 +6,6 @@ namespace ZigZag.Game.Path
 {
     internal class Tile : MonoBehaviour, ITile, IPoolable<Vector3>
     {
-        public event Action OnDespawnOnce;
-
         public Bounds Bounds => new Bounds(this.Position, this.Scale);
 
         public Vector3 Scale => this.transform.localScale;
@@ -36,8 +33,10 @@ namespace ZigZag.Game.Path
         {
             this.HideCease();
 
-            this.OnDespawnOnce?.Invoke();
-            this.OnDespawnOnce = null;
+            foreach (var item in this.GetComponentsInChildren<IDespawnable>())
+            {
+                item.Despawn();
+            }
         }
 
         public void HideStart()

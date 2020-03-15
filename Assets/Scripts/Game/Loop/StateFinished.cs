@@ -3,11 +3,11 @@ using ZigZag.Game.User;
 
 namespace ZigZag.Game.Loop
 {
-    internal class FinishedState : State
+    internal class StateFinished : State
     {
         private readonly IBall ball;
 
-        public FinishedState(
+        public StateFinished(
             IInput input,
             IBall ball) : base(input)
         {

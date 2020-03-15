@@ -10,7 +10,9 @@ namespace ZigZag.Game.Loot
         {
             this.Container
                 .BindMemoryPool<Item, ItemPool>()
-                .FromComponentInNewPrefabResource("Item");
+                .FromComponentInNewPrefabResource("Item")
+                .UnderTransformGroup("Loot")
+                .AsSingle();
 
             this.Container
                 .BindInterfacesTo<Generator>()

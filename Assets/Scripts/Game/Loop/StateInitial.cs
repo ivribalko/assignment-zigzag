@@ -6,14 +6,14 @@ using ZigZag.Game.User;
 
 namespace ZigZag.Game.Loop
 {
-    internal class InitialState : State
+    internal class StateInitial : State
     {
         private readonly IPath path;
         private readonly IBall ball;
         private readonly IOpts opts;
         private readonly ILoot loot;
 
-        public InitialState(
+        public StateInitial(
             IInput input,
             IPath path,
             IBall ball,

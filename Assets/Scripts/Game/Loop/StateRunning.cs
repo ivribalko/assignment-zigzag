@@ -7,7 +7,7 @@ using ZigZag.Rife;
 
 namespace ZigZag.Game.Loop
 {
-    internal class RunningState : State
+    internal class StateRunning : State
     {
         private readonly IPath path;
         private readonly IBall ball;
@@ -16,7 +16,7 @@ namespace ZigZag.Game.Loop
 
         private ITile ballOn;
 
-        public RunningState(
+        public StateRunning(
             IInput input,
             IPath path,
             IBall ball,

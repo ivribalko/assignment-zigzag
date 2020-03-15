@@ -45,8 +45,6 @@ namespace ZigZag.Game.Loot
             tile.SetChild(loot.transform);
 
             loot.transform.localPosition = new Vector3(0, 1f, 0);
-
-            tile.OnDespawnOnce += () => this.pool.Despawn(loot);
         }
     }
 }

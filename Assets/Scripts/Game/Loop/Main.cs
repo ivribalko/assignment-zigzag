@@ -8,9 +8,9 @@ namespace ZigZag.Game.Loop
         private readonly CircularArray<State> states;
 
         private Main(
-            InitialState initial,
-            RunningState running,
-            FinishedState finished)
+            StateInitial initial,
+            StateRunning running,
+            StateFinished finished)
         {
             this.states = new CircularArray<State>(new State[]
             {
