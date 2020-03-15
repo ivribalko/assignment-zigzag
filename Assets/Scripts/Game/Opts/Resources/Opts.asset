@@ -16,8 +16,15 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 1}
   - {x: 1, y: 0, z: 0}
   tileSize: {x: 1, y: 1, z: 1}
-  tileFactor: 1
   ballSpeed: 3
   ballToTile: 0.5
-  lootStrategy: 0
+  lootStrategy: 3
   lootBlock: 5
+  difficulty: 3
+  difficulties:
+  - difficulty: 0
+    tileFactor: 3
+  - difficulty: 3
+    tileFactor: 2
+  - difficulty: 6
+    tileFactor: 1
