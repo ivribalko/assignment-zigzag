@@ -20,14 +20,19 @@ namespace ZigZag.Game.Anim
         }
 
         // this is frame-dependent and doesn't set safely the value in the end
-        // NB: this has to add to current local pos as tiles change it all the time
+        // this has to add to current local pos as tiles change it all the time
         private IEnumerator DisappearCoroutine(Token token, Transform transform)
         {
             var remaining = DisappearIn;
 
-            while (!token.Disposed && remaining > 0)
+            while (!token.Disposed)
             {
                 remaining -= Time.deltaTime;
+
+                if (remaining < 0)
+                {
+                    yield break;
+                }
 
                 var progress = (DisappearIn - remaining) / DisappearIn;
 

@@ -7,7 +7,7 @@ using ZigZag.Rife;
 
 namespace ZigZag.Game.Ball
 {
-    public class Main : MonoBehaviour, IBall
+    internal class Main : MonoBehaviour, IBall
     {
         public event Action<Vector3> OnMoveUpdate;
 

@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 using Zenject;
 using ZigZag.Game.Path;
 
 namespace ZigZag.Game.Loot
 {
-    internal class Generator : IDisposable, ILoot
+    internal class Main : IDisposable, ILoot
     {
         private readonly IPath path;
         private readonly ItemPool pool;
@@ -14,7 +15,7 @@ namespace ZigZag.Game.Loot
 
         private Strategy strategy;
 
-        private Generator(
+        private Main(
             IPath path,
             ItemPool pool,
             IFactory<Strategy> pick)
@@ -40,11 +41,15 @@ namespace ZigZag.Game.Loot
         {
             var tile = this.strategy.Pick(tiles);
 
-            var loot = this.pool.Spawn(tile);
+            Assert.IsNull(tile.GetComponentInChildren<Item>());
 
-            tile.SetChild(loot.transform);
+            var item = this.pool.Spawn(tile);
 
-            loot.transform.localPosition = new Vector3(0, 1f, 0);
+            item.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+
+            tile.SetChild(item.transform);
+
+            item.transform.localPosition = new Vector3(0, 1f, 0);
         }
     }
 }
