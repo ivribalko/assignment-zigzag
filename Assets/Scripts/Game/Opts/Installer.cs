@@ -9,6 +9,12 @@ namespace ZigZag.Game.Opts
         public override void InstallBindings()
         {
             this.Container
+                .Bind<IOpts>()
+                .To<Opts>()
+                .FromScriptableObjectResource("Opts")
+                .AsSingle();
+
+            this.Container
                 .Bind<IReadOnlyList<Vector3>>()
                 .FromInstance(new [] { Vector3.right, Vector3.forward }); //TODO directions -> id
 
