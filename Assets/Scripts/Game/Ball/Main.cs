@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using ZigZag.Game.Path;
 using ZigZag.Rife;
@@ -6,12 +7,14 @@ namespace ZigZag.Game.Ball
 {
     public class Main : MonoBehaviour, IBall
     {
+        public event Action<Vector3> OnMoveUpdate;
+
         private float speed;
         private Vector3 direction;
 
         private void Update()
         {
-            this.transform.localPosition += Time.deltaTime * direction * speed;
+            this.OnMoveUpdate?.Invoke(Time.deltaTime * direction * speed);
         }
 
         public void SetSize(Vector3 size)
