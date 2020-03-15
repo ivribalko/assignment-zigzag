@@ -1,9 +1,10 @@
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace ZigZag.Game.Gain
 {
-    internal class Main : IGain
+    internal class Main : IGain, IDisposable
     {
         public event Action OnChanged;
 
@@ -11,20 +12,33 @@ namespace ZigZag.Game.Gain
 
         public int AllTime { get; private set; }
 
-        private Main()
+        private readonly SignalBus signalBus;
+
+        public Main(SignalBus signalBus)
         {
-            this.Current = PlayerPrefs.GetInt(nameof(this.Current));
+            this.signalBus = signalBus;
+
             this.AllTime = PlayerPrefs.GetInt(nameof(this.AllTime));
+
+            this.signalBus.Subscribe<SignalPick>(this.Increment);
         }
 
-        private void Save(int count)
+        public void ResetCurrent()
         {
-            this.Current = count;
+            this.Current = 0;
+        }
+
+        public void Dispose()
+        {
+            this.signalBus.Unsubscribe<SignalPick>(this.Increment);
+        }
+
+        private void Increment()
+        {
+            this.Current += 1;
             this.AllTime = Mathf.Max(this.AllTime, this.Current);
 
-            PlayerPrefs.SetInt(nameof(this.Current), this.Current);
             PlayerPrefs.SetInt(nameof(this.AllTime), this.AllTime);
-
             PlayerPrefs.Save();
 
             this.OnChanged?.Invoke();

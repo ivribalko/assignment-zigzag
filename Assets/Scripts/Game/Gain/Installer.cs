@@ -15,11 +15,11 @@ namespace ZigZag.Game.Gain
                 .AsSingle();
 
             this.Container
-                .Bind<Main>()
+                .BindInterfacesAndSelfTo<Main>()
                 .AsSingle();
 
             this.Container
-                .Bind<Bind>()
+                .BindInterfacesAndSelfTo<Bind>()
                 .AsSingle()
                 .NonLazy();
         }

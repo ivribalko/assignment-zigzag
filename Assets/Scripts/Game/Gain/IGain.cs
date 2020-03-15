@@ -9,5 +9,7 @@ namespace ZigZag.Game.Gain
         int Current { get; }
 
         int AllTime { get; }
+
+        void ResetCurrent();
     }
 }

@@ -9,6 +9,11 @@ namespace ZigZag.Game
 
         public override void InstallBindings()
         {
+            SignalBusInstaller.Install(this.Container);
+
+            this.Container
+                .DeclareSignal<SignalPick>();
+
             this.Container
                 .Bind<User.ICamera>()
                 .FromInstance(this.camera);
