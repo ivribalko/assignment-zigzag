@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using ZigZag.Game.Opts;
 using ZigZag.Game.User;
 using ZigZag.Rife;
 
@@ -14,18 +15,18 @@ namespace ZigZag.Game.Path
         private readonly LinkedList<Tile> tiles = new LinkedList<Tile>();
 
         private readonly Vector3 size = Vector3.one;
-        private readonly Vector3 ballDirection;
+        private readonly Vector3 startDirection;
 
         public Main(
+            IOpts opts,
             TilePool pool,
             ICamera camera,
-            CircularArray<Vector3> ballDirections,
             RandomAccessArray<Vector3> directions)
         {
             this.pool = pool;
             this.camera = camera;
             this.directions = directions;
-            this.ballDirection = ballDirections.Next();
+            this.startDirection = opts.Directions[0];
         }
 
         public ITile Start()
@@ -39,9 +40,9 @@ namespace ZigZag.Game.Path
 
             var start = this.SpawnNext(size, Vector3.zero);
 
-            this.SpawnNext(this.size, this.ballDirection);
+            this.SpawnNext(this.size, this.startDirection);
 
-            this.SpawnNext(this.size, this.ballDirection);
+            this.SpawnNext(this.size, this.startDirection);
 
             this.SpawnVisible();
 

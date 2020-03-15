@@ -13,18 +13,6 @@ namespace ZigZag.Game.Opts
                 .To<Opts>()
                 .FromScriptableObjectResource("Opts")
                 .AsSingle();
-
-            this.Container
-                .Bind<IReadOnlyList<Vector3>>()
-                .FromInstance(new [] { Vector3.right, Vector3.forward }); //TODO directions -> id
-
-            this.Container
-                .Bind<Vector3>()
-                .FromInstance(Vector3.one); //TODO tile size -> id
-
-            this.Container
-                .Bind<float>()
-                .FromInstance(2f); //TODO speed -> settings
         }
     }
 }

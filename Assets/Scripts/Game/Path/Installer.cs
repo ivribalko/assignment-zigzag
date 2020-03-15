@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
+using ZigZag.Game.Opts;
 using ZigZag.Rife;
 
 namespace ZigZag.Game.Path
@@ -18,8 +20,13 @@ namespace ZigZag.Game.Path
                 .AsSingle();
 
             this.Container
+                .Bind<IReadOnlyList<Vector3>>()
+                .FromResolveGetter<IOpts>(opts => opts.Directions)
+                .WhenInjectedInto<RandomAccessArray<Vector3>>();
+
+            this.Container
                 .Bind<RandomAccessArray<Vector3>>()
-                .AsSingle();
+                .WhenInjectedInto<Main>();
         }
     }
 }
