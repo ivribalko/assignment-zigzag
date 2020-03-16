@@ -38,13 +38,17 @@ namespace ZigZag.Game.Gain
 
         private void Increment()
         {
-            this.Current += 1;
-            this.AllTime = Mathf.Max(this.AllTime, this.Current);
+            if (this.Current < int.MaxValue)
+            {
+                this.Current += 1;
 
-            PlayerPrefs.SetInt(nameof(this.AllTime), this.AllTime);
-            PlayerPrefs.Save();
+                this.AllTime = Mathf.Max(this.AllTime, this.Current);
 
-            this.OnChanged?.Invoke();
+                PlayerPrefs.SetInt(nameof(this.AllTime), this.AllTime);
+                PlayerPrefs.Save();
+
+                this.OnChanged?.Invoke();
+            }
         }
     }
 }
